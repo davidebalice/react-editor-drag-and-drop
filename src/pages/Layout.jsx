@@ -3,7 +3,7 @@ import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { FaHome } from "react-icons/fa";
 import { FaFolderOpen } from "react-icons/fa";
 import { LuLayoutTemplate } from "react-icons/lu";
-
+import logo from '../assets/images/logoWhite.png';
 
 const Layout = () => {
     const [show,setShow] = useState(false)
@@ -21,7 +21,7 @@ const Layout = () => {
       }
 
       const logout = () => {
-        localStorage.removeItem('canva_token')
+        localStorage.removeItem('token')
         window.location.href = '/'
       }
 
@@ -30,8 +30,8 @@ const Layout = () => {
     <div className='bg-[#212223] shadow-md fixed left-0 top-0 w-full z-20'>
      <div className='w-[93%] m-auto py-3'>
        <div className='flex justify-between items-center'>
-        <div className='w-[80px] h-[48px]'>
-    <img className='w-full h-full' src="https://static.canva.com/web/images/12487a1e0770d29351bd4ce4f87ec8fe.svg" alt="" />
+        <div className='w-[140px] h-[54px]'>
+    <img className='w-full h-full' src={logo} alt="" />
      </div>
 
     <div className='flex gap-4 justify-center items-center relative'>

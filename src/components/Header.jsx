@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import * as htmlToImage from 'html-to-image'
 import api from '../utils/api'
 import toast from 'react-hot-toast'
+import logo from '../assets/images/logoWhite.png';
 
 const Header = ({components,design_id}) => {
 
@@ -27,9 +28,9 @@ const Header = ({components,design_id}) => {
          setLoader(true)
          const {data} = await api.put(`/api/update-user-design/${design_id}`,formData)
          toast.success(data.message)
-         setLoader(false)                
+         setLoader(false)
         } catch (error) {
-            setLoader(false)  
+            setLoader(false)
             toast.error(error.response.data.message)
         }
     }
@@ -59,9 +60,9 @@ const Header = ({components,design_id}) => {
         <div className='h-[60px] bg-gradient-to-r from-[#212122] via-[#27282b] to-[#2a2b2c] w-full'>
           <div className='flex justify-between px-10 items-center text-gray-400 h-full'>
             <Link to='/'>
-                <img src="https://static.canva.com/web/images/12487a1e0770d29351bd4ce4f87ec8fe.svg" alt="" />
+                <img src={logo} alt="" />
             </Link>
-            <span className='text-xl'>Easy Canva</span>
+            <span className='text-xl'>Editor Drag and Drop</span>
 
             <div className='flex justify-center items-center gap-2 text-gray-200'>
         <button disabled={loader} onClick={saveImage} className='px-3 py-[6px] outline-none bg-[#7482f6] rounded-md'> {loader ? 'Loading..' : 'Save'}</button>
