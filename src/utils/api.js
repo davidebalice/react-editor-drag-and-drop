@@ -1,11 +1,10 @@
 import axios from "axios";
-const local_api = "http://localhost:8000";
-const production_api = "http://localhost:8000";
+import config from "../config";
 
 const token = localStorage.getItem("token");
 
 const api = axios.create({
-  baseURL: local_api,
+  baseURL: config.apiUrl,
   headers: {
     Authorization: token ? `Bearar ${token}` : "",
   },

@@ -23,7 +23,7 @@ const CreateDesign = () => {
 
   const [loader, setLoader] = useState(false);
 
-  const create_design = async () => {
+  const createDesign = async () => {
     const image = await htmlToImage.toBlob(ref.current);
     const design = JSON.stringify(obj);
 
@@ -49,7 +49,7 @@ const CreateDesign = () => {
 
   useEffect(() => {
     if (state && ref.current) {
-      create_design();
+      createDesign();
     } else {
       navigate("/");
     }
