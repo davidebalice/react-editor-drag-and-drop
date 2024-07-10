@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import RotateLoader from "react-spinners/RotateLoader";
 import api from "../utils/api";
-import CreateComponent from "./CreateComponent";
+import Components from "./Components";
 
 const CreateDesign = () => {
   const ref = useRef();
@@ -58,7 +58,7 @@ const CreateDesign = () => {
   return (
     <div className="w-screen h-screen flex justify-center items-center relative">
       <div ref={ref} className="relative w-auto h-auto overflow-auto">
-        <CreateComponent info={obj} current_component={{}} />
+        <Components info={obj} currentComponent={{}} />
       </div>
       {loader && (
         <div className="left-0 top-0 w-full h-full flex justify-center items-center bg-black absolute">

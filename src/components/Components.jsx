@@ -1,19 +1,27 @@
 import React from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import config from "../config";
-import Element from "./Element";
+import Controls from "./Controls";
 
-const CreateComponent = ({ info, current_component, removeComponent }) => {
-  //  console.log(info)
-  const randValue = Math.floor(Math.random() * 100);
+const Components = ({ info, currentComponent, removeComponent }) => {
+  //const randValue = Math.floor(Math.random() * 100);
+  const randValue = info.id;
   const token = localStorage.getItem("token");
   let html = "";
+
+  const currentSize = (currentInfo) => {
+    currentInfo.setCurrentComponent(currentInfo);
+    const currentDiv = document.getElementById(currentInfo.id);
+    currentDiv.style.width = currentInfo.width + "px";
+    currentDiv.style.height = currentInfo.height + "px";
+  };
 
   if (info.name === "main_frame") {
     html = (
       <div
+        onMouseEnter={() => currentSize(info)}
         onClick={() => info.setCurrentComponent(info)}
-        className="hover:border-[2px] hover:border-indigo-500 shadow-md"
+        className="shadow-md"
         style={{
           width: info.width + "px",
           height: info.height + "px",
@@ -36,6 +44,7 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
     html = (
       <div
         id={randValue}
+        onMouseEnter={() => currentSize(info)}
         onClick={() => info.setCurrentComponent(info)}
         style={{
           width: info.width + "px",
@@ -47,10 +56,9 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
           zIndex: info.z_index,
           transform: info.rotate ? `rotate(${info.rotate}deg)` : "rotate(0deg)",
         }}
-        className="absolute group hover:border-[2px] hover:border-indigo-500"
+        className="absolute group"
       >
-        <Element id={randValue} info={info} exId="" />
-        {current_component.id === info.id && (
+        {currentComponent.id === info.id && (
           <div
             onClick={() => removeComponent(info.id)}
             className="px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md"
@@ -58,6 +66,7 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
             <FaTrashAlt />
           </div>
         )}
+        <Controls id={randValue} info={info} exId="" />
       </div>
     );
   }
@@ -66,6 +75,7 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
     html = (
       <div
         id={randValue}
+        onMouseEnter={() => currentSize(info)}
         onClick={() => info.setCurrentComponent(info)}
         style={{
           left: info.left + "px",
@@ -73,20 +83,20 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
           zIndex: info.z_index,
           transform: info.rotate ? `rotate(${info.rotate}deg)` : "rotate(0deg)",
         }}
-        className="absolute group hover:border-[2px] hover:border-indigo-500"
+        className="absolute group"
       >
         <div
           id={`${randValue}c`}
           className="rounded-full"
           style={{
             width: info.width + "px",
-            height: info.width + "px",
+            height: info.height + "px",
             background: info.color,
             opacity: info.opacity,
           }}
         ></div>
-        <Element id={randValue} info={info} exId={`${randValue}c`} />
-        {current_component.id === info.id && (
+
+        {currentComponent.id === info.id && (
           <div
             onClick={() => removeComponent(info.id)}
             className="px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md"
@@ -94,14 +104,16 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
             <FaTrashAlt />
           </div>
         )}
+        <Controls id={randValue} info={info} exId={`${randValue}c`} />
       </div>
     );
   }
 
-  if (info.name === "shape" && info.type === "trangle") {
+  if (info.name === "shape" && info.type === "triangle") {
     html = (
       <div
         id={randValue}
+        onMouseEnter={() => currentSize(info)}
         onClick={() => info.setCurrentComponent(info)}
         style={{
           left: info.left + "px",
@@ -109,7 +121,7 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
           zIndex: info.z_index,
           transform: info.rotate ? `rotate(${info.rotate}deg)` : "rotate(0deg)",
         }}
-        className="absolute group hover:border-[2px] hover:border-indigo-500"
+        className="absolute group"
       >
         <div
           id={`${randValue}t`}
@@ -121,8 +133,8 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
             clipPath: "polygon(50% 0, 100% 100%, 0 100%)",
           }}
         ></div>
-        <Element id={randValue} info={info} exId={`${randValue}t`} />
-        {current_component.id === info.id && (
+
+        {currentComponent.id === info.id && (
           <div
             onClick={() => removeComponent(info.id)}
             className="px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md"
@@ -130,6 +142,7 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
             <FaTrashAlt />
           </div>
         )}
+        <Controls id={randValue} info={info} exId={`${randValue}t`} />
       </div>
     );
   }
@@ -138,6 +151,7 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
     html = (
       <div
         id={randValue}
+        onMouseEnter={() => currentSize(info)}
         onClick={() => info.setCurrentComponent(info)}
         style={{
           left: info.left + "px",
@@ -149,9 +163,8 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
           color: info.color,
           opacity: info.opacity,
         }}
-        className="absolute group hover:border-[2px] hover:border-indigo-500"
+        className="absolute group"
       >
-        <Element id={randValue} info={info} exId="" />
         <h2
           style={{ fontSize: info.font + "px", fontWeight: info.weight }}
           className="w-full h-full"
@@ -159,7 +172,7 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
           {" "}
           {info.title}{" "}
         </h2>
-        {current_component.id === info.id && (
+        {currentComponent.id === info.id && (
           <div
             onClick={() => removeComponent(info.id)}
             className="px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md"
@@ -167,6 +180,7 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
             <FaTrashAlt />
           </div>
         )}
+        <Controls id={randValue} info={info} exId="" />
       </div>
     );
   }
@@ -175,6 +189,7 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
     html = (
       <div
         id={randValue}
+        onMouseEnter={() => currentSize(info)}
         onClick={() => info.setCurrentComponent(info)}
         style={{
           left: info.left + "px",
@@ -183,9 +198,8 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
           opacity: info.opacity,
           transform: info.rotate ? `rotate(${info.rotate}deg)` : "rotate(0deg)",
         }}
-        className="absolute group hover:border-[2px] hover:border-indigo-500"
+        className="absolute group"
       >
-        <Element id={randValue} info={info} exId={`${randValue}img`} />
         <div
           className="overflow-hidden"
           id={`${randValue}img`}
@@ -202,7 +216,7 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
           />
         </div>
 
-        {current_component.id === info.id && (
+        {currentComponent.id === info.id && (
           <div
             onClick={() => removeComponent(info.id)}
             className="px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md"
@@ -210,6 +224,7 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
             <FaTrashAlt />
           </div>
         )}
+        <Controls id={randValue} info={info} exId={`${randValue}img`} />
       </div>
     );
   }
@@ -217,4 +232,4 @@ const CreateComponent = ({ info, current_component, removeComponent }) => {
   return html;
 };
 
-export default CreateComponent;
+export default Components;

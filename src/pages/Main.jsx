@@ -7,7 +7,7 @@ import { MdKeyboardArrowLeft } from "react-icons/md";
 import { RxTransparencyGrid } from "react-icons/rx";
 import { useParams } from "react-router-dom";
 import BackgroundImages from "../components/BackgroundImages";
-import CreateComponent from "../components/CreateComponent";
+import CreateComponent from "../components/Components";
 import Header from "../components/Header";
 import Images from "../components/Images";
 import InitialImage from "../components/InitialImage";
@@ -19,7 +19,7 @@ const Main = () => {
   const { design_id } = useParams();
 
   const [state, setState] = useState("");
-  const [current_component, setCurrentComponent] = useState("");
+  const [currentComponent, setCurrentComponent] = useState("");
   const [color, setColor] = useState("");
   const [image, setImage] = useState("");
   const [rotate, setRotate] = useState(0);
@@ -64,40 +64,40 @@ const Main = () => {
   ]);
 
   useEffect(() => {
-    if (current_component) {
-      const index = components.findIndex((c) => c.id === current_component.id);
+    if (currentComponent) {
+      const index = components.findIndex((c) => c.id === currentComponent.id);
 
-      const temp = components.filter((c) => c.id !== current_component.id);
+      const temp = components.filter((c) => c.id !== currentComponent.id);
 
-      if (current_component.name !== "text") {
-        components[index].width = width || current_component.width;
-        components[index].height = height || current_component.height;
-        components[index].rotate = rotate || current_component.rotate;
+      if (currentComponent.name !== "text") {
+        components[index].width = width || currentComponent.width;
+        components[index].height = height || currentComponent.height;
+        components[index].rotate = rotate || currentComponent.rotate;
       }
 
-      if (current_component.name === "text") {
-        components[index].font = font || current_component.font;
-        components[index].padding = padding || current_component.padding;
-        components[index].weight = weight || current_component.weight;
-        components[index].title = text || current_component.title;
+      if (currentComponent.name === "text") {
+        components[index].font = font || currentComponent.font;
+        components[index].padding = padding || currentComponent.padding;
+        components[index].weight = weight || currentComponent.weight;
+        components[index].title = text || currentComponent.title;
       }
 
-      if (current_component.name === "image") {
-        components[index].radius = radius || current_component.radius;
+      if (currentComponent.name === "image") {
+        components[index].radius = radius || currentComponent.radius;
       }
 
-      if (current_component.name === "main_frame" && image) {
-        components[index].image = image || current_component.image;
+      if (currentComponent.name === "main_frame" && image) {
+        components[index].image = image || currentComponent.image;
       }
 
-      if (current_component.name !== "main_frame") {
-        components[index].left = left || current_component.left;
-        components[index].top = top || current_component.top;
-        components[index].opacity = opacity || current_component.opacity;
-        components[index].z_index = zIndex || current_component.z_index;
+      if (currentComponent.name !== "main_frame") {
+        components[index].left = left || currentComponent.left;
+        components[index].top = top || currentComponent.top;
+        components[index].opacity = opacity || currentComponent.opacity;
+        components[index].z_index = zIndex || currentComponent.z_index;
       }
 
-      components[index].color = color || current_component.color;
+      components[index].color = color || currentComponent.color;
 
       setComponents([...temp, components[index]]);
 
@@ -128,16 +128,30 @@ const Main = () => {
     rotate,
   ]);
 
+  const disableSelection = () => {
+    document.body.classList.add("no-select");
+  };
+
+  const enableSelection = () => {
+    document.body.classList.remove("no-select");
+  };
+
   const moveElement = (id, currentInfo) => {
     setCurrentComponent(currentInfo);
     let isMoving = true;
 
+    console.log("curentInfo");
+    console.log(width);
+    console.log(currentInfo.width);
+
     const currentDiv = document.getElementById(id);
 
     const mouseMove = ({ movementX, movementY }) => {
+      disableSelection();
       const getStyle = window.getComputedStyle(currentDiv);
       const left = parseInt(getStyle.left);
       const top = parseInt(getStyle.top);
+
       if (isMoving) {
         currentDiv.style.left = `${left + movementX}px`;
         currentDiv.style.top = `${top + movementY}px`;
@@ -145,7 +159,9 @@ const Main = () => {
     };
 
     const mouseUp = (e) => {
-      let isMoving = false;
+      e.preventDefault();
+      enableSelection();
+      isMoving = false;
       window.removeEventListener("mousemove", mouseMove);
       window.removeEventListener("mouseup", mouseUp);
       setLeft(parseInt(currentDiv.style.left));
@@ -158,22 +174,28 @@ const Main = () => {
 
   const resizeElement = (id, currentInfo) => {
     setCurrentComponent(currentInfo);
-    let isMoving = true;
 
+    let isMoving = true;
     const currentDiv = document.getElementById(id);
+    const currentDivChild = currentDiv.children[0];
 
     const mouseMove = ({ movementX, movementY }) => {
+      disableSelection();
       const getStyle = window.getComputedStyle(currentDiv);
       const width = parseInt(getStyle.width);
       const height = parseInt(getStyle.height);
       if (isMoving) {
+        currentDiv.style.border = "0px solid yellow";
         currentDiv.style.width = `${width + movementX}px`;
         currentDiv.style.height = `${height + movementY}px`;
+        currentDivChild.style.width = `${width + movementX}px`;
+        currentDivChild.style.height = `${height + movementY}px`;
       }
     };
 
     const mouseUp = (e) => {
-      let isMoving = false;
+      enableSelection();
+      isMoving = false;
       window.removeEventListener("mousemove", mouseMove);
       window.removeEventListener("mouseup", mouseUp);
       setWidth(parseInt(currentDiv.style.width));
@@ -185,7 +207,6 @@ const Main = () => {
   };
 
   const rotateElement = (id, currentInfo) => {
-    setCurrentComponent("");
     setCurrentComponent(currentInfo);
     const target = document.getElementById(id);
 
@@ -206,6 +227,7 @@ const Main = () => {
     };
 
     const mouseUp = (e) => {
+      e.preventDefault();
       window.removeEventListener("mousemove", mouseMove);
       window.removeEventListener("mouseup", mouseUp);
 
@@ -230,9 +252,9 @@ const Main = () => {
     setComponents(temp);
   };
 
-  const remove_background = () => {
-    const com = components.find((c) => c.id === current_component.id);
-    const temp = components.filter((c) => c.id !== current_component.id);
+  const removeBackground = () => {
+    const com = components.find((c) => c.id === currentComponent.id);
+    const temp = components.filter((c) => c.id !== currentComponent.id);
     com.image = "";
     setImage("");
     setComponents([...temp, com]);
@@ -326,7 +348,7 @@ const Main = () => {
           design[i].moveElement = moveElement;
           design[i].resizeElement = resizeElement;
           design[i].rotateElement = rotateElement;
-          design[i].remove_background = remove_background;
+          design[i].removeBackground = removeBackground;
         }
         setComponents(design);
       } catch (error) {
@@ -455,7 +477,7 @@ const Main = () => {
                   className="h-[90px] bg-[#3c3c3d] cursor-pointer rounded-full"
                 ></div>
                 <div
-                  onClick={() => createShape("shape", "trangle")}
+                  onClick={() => createShape("shape", "triangle")}
                   style={{ clipPath: "polygon(50% 0, 100% 100%, 0 100%)" }}
                   className="h-[90px] bg-[#3c3c3d] cursor-pointer  "
                 ></div>
@@ -492,7 +514,7 @@ const Main = () => {
           <div className="w-full flex h-full">
             <div
               className={`flex justify-center relative items-center h-full ${
-                !current_component ? "w-full" : "w-[100%] overflow-hidden"
+                !currentComponent ? "w-full" : "w-[100%] overflow-hidden"
               }`}
             >
               <div className="m-w-[650px] m-h-[500px] flex justify-center items-center overflow-hidden">
@@ -504,7 +526,7 @@ const Main = () => {
                     <CreateComponent
                       key={i}
                       info={c}
-                      current_component={current_component}
+                      currentComponent={currentComponent}
                       removeComponent={removeComponent}
                     />
                   ))}
@@ -512,9 +534,9 @@ const Main = () => {
               </div>
             </div>
             <div className="h-full w-[240px] text-gray-300 bg-[#252627] px-3 py-2 right-[0] fixed">
-              {current_component && (
+              {currentComponent && (
                 <div className="flex gap-6 flex-col items-start h-full px-3 justify-start mt-4">
-                  {current_component.name !== "text" && (
+                  {currentComponent.name !== "text" && (
                     <>
                       <div className="flex gap-1 justify-start items-start">
                         <span className="text-md w-[70px]">Width</span>
@@ -523,7 +545,7 @@ const Main = () => {
                           className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
                           type="number"
                           step={1}
-                          value={current_component.width}
+                          value={currentComponent.width}
                         />
                       </div>
 
@@ -534,7 +556,7 @@ const Main = () => {
                           className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
                           type="number"
                           step={1}
-                          value={current_component.height}
+                          value={currentComponent.height}
                         />
                       </div>
                     </>
@@ -546,9 +568,9 @@ const Main = () => {
                       className="w-[30px] h-[30px] cursor-pointer rounded-sm"
                       style={{
                         background: `${
-                          current_component.color &&
-                          current_component.color !== "#fff"
-                            ? current_component.color
+                          currentComponent.color &&
+                          currentComponent.color !== "#fff"
+                            ? currentComponent.color
                             : "gray"
                         }`,
                       }}
@@ -561,17 +583,17 @@ const Main = () => {
                       id="color"
                     />
                   </div>
-                  {current_component.name === "main_frame" &&
-                    current_component.image && (
+                  {currentComponent.name === "main_frame" &&
+                    currentComponent.image && (
                       <div
                         className="p-[6px] bg-slate-600 text-white cursor-pointer"
-                        onClick={remove_background}
+                        onClick={removeBackground}
                       >
                         Remove Background
                       </div>
                     )}
 
-                  {current_component.name !== "main_frame" && (
+                  {currentComponent.name !== "main_frame" && (
                     <div className="flex gap-6 flex-col">
                       <div className="flex gap-1 justify-start items-start">
                         <span className="text-md w-[70px]">Opacity</span>
@@ -582,7 +604,7 @@ const Main = () => {
                           step={0.1}
                           min={0.1}
                           max={1}
-                          value={current_component.opacity}
+                          value={currentComponent.opacity}
                         />
                       </div>
 
@@ -593,7 +615,7 @@ const Main = () => {
                           className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
                           type="number"
                           step={1}
-                          value={current_component.z_index}
+                          value={currentComponent.z_index}
                         />
                       </div>
 
@@ -604,11 +626,11 @@ const Main = () => {
                           className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
                           type="number"
                           step={1}
-                          value={current_component.rotate}
+                          value={currentComponent.rotate}
                         />
                       </div>
 
-                      {current_component.name === "image" && (
+                      {currentComponent.name === "image" && (
                         <div className="flex gap-1 justify-start items-start">
                           <span className="text-md w-[70px]">Radius</span>
                           <input
@@ -618,12 +640,12 @@ const Main = () => {
                             className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
                             type="number"
                             step={1}
-                            value={current_component.radius}
+                            value={currentComponent.radius}
                           />
                         </div>
                       )}
 
-                      {current_component.name === "text" && (
+                      {currentComponent.name === "text" && (
                         <>
                           <div className="flex gap-1 justify-start items-start">
                             <span className="text-md w-[70px]">Padding : </span>
@@ -634,7 +656,7 @@ const Main = () => {
                               className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
                               type="number"
                               step={1}
-                              value={current_component.padding}
+                              value={currentComponent.padding}
                             />
                           </div>
 
@@ -647,7 +669,7 @@ const Main = () => {
                               className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
                               type="number"
                               step={1}
-                              value={current_component.font}
+                              value={currentComponent.font}
                             />
                           </div>
 
@@ -662,7 +684,7 @@ const Main = () => {
                               step={100}
                               min={100}
                               max={900}
-                              value={current_component.weight}
+                              value={currentComponent.weight}
                             />
                           </div>
 
@@ -670,16 +692,16 @@ const Main = () => {
                             <input
                               onChange={(e) =>
                                 setCurrentComponent({
-                                  ...current_component,
+                                  ...currentComponent,
                                   title: e.target.value,
                                 })
                               }
                               className="border border-gray-700 bg-transparent outline-none p-2 rounded-md"
                               type="text"
-                              value={current_component.title}
+                              value={currentComponent.title}
                             />
                             <button
-                              onClick={() => setText(current_component.title)}
+                              onClick={() => setText(currentComponent.title)}
                               className="px-4 py-2 bg-purple-500 text-xs text-white rounded-sm"
                             >
                               Add Text

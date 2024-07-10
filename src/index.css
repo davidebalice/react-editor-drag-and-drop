@@ -3,5 +3,10 @@
 @tailwind utilities;
 
 body {
-    overflow-x: hidden;
-  }
+  overflow-x: hidden;
+}
+
+.no-select {
+  user-select: none;
+  pointer-events: none;
+}

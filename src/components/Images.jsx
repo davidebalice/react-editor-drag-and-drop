@@ -37,60 +37,6 @@ const Images = ({ add_image }) => {
     get_images();
   }, []);
 
-  /*
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-
-const UserProfile = () => {
-  const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchImages = async () => {
-      const token = localStorage.getItem('token'); // Recupera il token JWT dal localStorage
-
-      try {
-        const response = await axios.get('/api/user/images', {
-          headers: {
-            Authorization: `Bearer ${token}`, // Passa il token nell'intestazione Authorization
-          },
-        });
-        setImages(response.data.images); // Imposta l'array di immagini nel componente di stato
-        setLoading(false);
-      } catch (error) {
-        console.error('Errore nel recupero delle immagini:', error);
-        setError(error);
-        setLoading(false);
-      }
-    };
-
-    fetchImages();
-  }, []); // Esegui solo una volta al caricamento del componente
-
-  if (loading) {
-    return <p>Caricamento immagini...</p>;
-  }
-
-  if (error) {
-    return <p>Errore nel caricamento delle immagini. Prova di nuovo più tardi.</p>;
-  }
-
-  return (
-    <div>
-      {images.map((image, index) => (
-        <div key={index}>
-          <img src={image.url} alt={`Immagine ${index}`} />
-          <p>{image.name}</p>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-export default UserProfile;
-
-*/
 
   return (
     <div>

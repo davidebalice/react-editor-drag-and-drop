@@ -36,7 +36,7 @@ const Layout = () => {
       });
       setUser(response.data.user);
     } catch (error) {
-      console.error("Errore nel recupero dei dati dell'utente:", error);
+      console.error("Error fetch user data:", error);
     }
   };
 
