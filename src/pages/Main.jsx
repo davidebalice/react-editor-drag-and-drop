@@ -125,6 +125,7 @@ const Main = () => {
     weight,
     text,
     radius,
+    rotate,
   ]);
 
   const moveElement = (id, currentInfo) => {
@@ -491,9 +492,7 @@ const Main = () => {
           <div className="w-full flex h-full">
             <div
               className={`flex justify-center relative items-center h-full ${
-                !current_component
-                  ? "w-full"
-                  : "w-[calc(100%-250px)] overflow-hidden"
+                !current_component ? "w-full" : "w-[100%] overflow-hidden"
               }`}
             >
               <div className="m-w-[650px] m-h-[500px] flex justify-center items-center overflow-hidden">
@@ -512,10 +511,35 @@ const Main = () => {
                 </div>
               </div>
             </div>
+            <div className="h-full w-[240px] text-gray-300 bg-[#252627] px-3 py-2 right-[0] fixed">
+              {current_component && (
+                <div className="flex gap-6 flex-col items-start h-full px-3 justify-start mt-4">
+                  {current_component.name !== "text" && (
+                    <>
+                      <div className="flex gap-1 justify-start items-start">
+                        <span className="text-md w-[70px]">Width</span>
+                        <input
+                          onChange={(e) => setWidth(parseInt(e.target.value))}
+                          className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
+                          type="number"
+                          step={1}
+                          value={current_component.width}
+                        />
+                      </div>
 
-            {current_component && (
-              <div className="h-full w-[250px] text-gray-300 bg-[#252627] px-3 py-2">
-                <div className="flex gap-6 flex-col items-start h-full px-3 justify-start">
+                      <div className="flex gap-1 justify-start items-start">
+                        <span className="text-md w-[70px]">Height</span>
+                        <input
+                          onChange={(e) => setHeight(parseInt(e.target.value))}
+                          className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
+                          type="number"
+                          step={1}
+                          value={current_component.height}
+                        />
+                      </div>
+                    </>
+                  )}
+
                   <div className="flex gap-4 justify-start items-start mt-4">
                     <span>Color :</span>
                     <label
@@ -570,6 +594,17 @@ const Main = () => {
                           type="number"
                           step={1}
                           value={current_component.z_index}
+                        />
+                      </div>
+
+                      <div className="flex gap-1 justify-start items-start">
+                        <span className="text-md w-[70px]">Rotate</span>
+                        <input
+                          onChange={(e) => setRotate(parseInt(e.target.value))}
+                          className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
+                          type="number"
+                          step={1}
+                          value={current_component.rotate}
                         />
                       </div>
 
@@ -655,8 +690,8 @@ const Main = () => {
                     </div>
                   )}
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>

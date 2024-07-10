@@ -81,7 +81,7 @@ const Layout = () => {
                   />
                   <div className="flex justify-center flex-col items-start">
                     <span className="text-[#e0dddd] font-bold text-md">
-                    { user && user.name}
+                      {user && user.name}
                     </span>
                     <span className="text-[#e0dddd] font-bold text-md">
                       {user && user.email}
@@ -117,7 +117,7 @@ const Layout = () => {
             />
             <div className="flex justify-center flex-col items-start">
               <span className="text-[#e0dddd] font-bold text-md">
-              { user && user.name}
+                {user && user.name}
               </span>
               <span className="text-[#e0dddd] text-sm">Free</span>
             </div>
