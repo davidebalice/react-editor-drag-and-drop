@@ -10,7 +10,7 @@ const Components = ({ info, currentComponent, removeComponent }) => {
   let html = "";
 
   const currentSize = (currentInfo) => {
-    currentInfo.setCurrentComponent(currentInfo);
+    //currentInfo.setCurrentComponent(currentInfo);
     const currentDiv = document.getElementById(currentInfo.id);
     currentDiv.style.width = currentInfo.width + "px";
     currentDiv.style.height = currentInfo.height + "px";
@@ -80,6 +80,8 @@ const Components = ({ info, currentComponent, removeComponent }) => {
         style={{
           left: info.left + "px",
           top: info.top + "px",
+          width: info.width + "px",
+          height: info.height + "px",
           zIndex: info.z_index,
           transform: info.rotate ? `rotate(${info.rotate}deg)` : "rotate(0deg)",
         }}
@@ -158,20 +160,24 @@ const Components = ({ info, currentComponent, removeComponent }) => {
           top: info.top + "px",
           zIndex: info.z_index,
           transform: info.rotate ? `rotate(${info.rotate}deg)` : "rotate(0deg)",
-
+          width: info.width + "px",
+          height: info.height + "px",
           padding: info.padding + "px",
           color: info.color,
           opacity: info.opacity,
         }}
         className="absolute group"
       >
-        <h2
-          style={{ fontSize: info.font + "px", fontWeight: info.weight }}
-          className="w-full h-full"
+        <div
+          style={{
+            fontSize: info.font + "px",
+            fontWeight: info.weight,
+            width: info.width + "px",
+            height: info.height + "px",
+          }}
         >
-          {" "}
-          {info.title}{" "}
-        </h2>
+          {info.title}
+        </div>
         {currentComponent.id === info.id && (
           <div
             onClick={() => removeComponent(info.id)}

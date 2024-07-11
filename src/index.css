@@ -10,3 +10,11 @@ body {
   user-select: none;
   pointer-events: none;
 }
+
+.dragIcon {
+  cursor: move;
+}
+
+.bgHover {
+  background: rgba(0, 0, 0, 0.3);
+}

@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { BsImages } from "react-icons/bs";
-import { FaCloudUploadAlt, FaFolderOpen, FaShapes } from "react-icons/fa";
+import {
+  FaCloudUploadAlt,
+  FaFolderOpen,
+  FaShapes,
+  FaTrashAlt,
+} from "react-icons/fa";
 import { FaTextHeight } from "react-icons/fa6";
 import { LuLayoutTemplate } from "react-icons/lu";
 import { MdKeyboardArrowLeft } from "react-icons/md";
@@ -14,7 +19,6 @@ import InitialImage from "../components/InitialImage";
 import TemplateDesign from "../components/main/TemplateDesign";
 import Projects from "../components/Projects";
 import api from "../utils/api";
-
 const Main = () => {
   const { design_id } = useParams();
 
@@ -69,11 +73,9 @@ const Main = () => {
 
       const temp = components.filter((c) => c.id !== currentComponent.id);
 
-      if (currentComponent.name !== "text") {
-        components[index].width = width || currentComponent.width;
-        components[index].height = height || currentComponent.height;
-        components[index].rotate = rotate || currentComponent.rotate;
-      }
+      components[index].width = width || currentComponent.width;
+      components[index].height = height || currentComponent.height;
+      components[index].rotate = rotate || currentComponent.rotate;
 
       if (currentComponent.name === "text") {
         components[index].font = font || currentComponent.font;
@@ -185,7 +187,8 @@ const Main = () => {
       const width = parseInt(getStyle.width);
       const height = parseInt(getStyle.height);
       if (isMoving) {
-        currentDiv.style.border = "0px solid yellow";
+        currentDiv.style.outline = "1px dashed #999";
+        currentDiv.style.background = "rgba(0,0,0,0.3)";
         currentDiv.style.width = `${width + movementX}px`;
         currentDiv.style.height = `${height + movementY}px`;
         currentDivChild.style.width = `${width + movementX}px`;
@@ -196,6 +199,8 @@ const Main = () => {
     const mouseUp = (e) => {
       enableSelection();
       isMoving = false;
+      currentDiv.style.outline = "none";
+      currentDiv.style.background = "none";
       window.removeEventListener("mousemove", mouseMove);
       window.removeEventListener("mouseup", mouseUp);
       setWidth(parseInt(currentDiv.style.width));
@@ -247,9 +252,11 @@ const Main = () => {
   };
 
   const removeComponent = (id) => {
-    const temp = components.filter((c) => c.id !== id);
-    setCurrentComponent("");
-    setComponents(temp);
+    if (confirm("Delete this component?")) {
+      const temp = components.filter((c) => c.id !== id);
+      setCurrentComponent("");
+      setComponents(temp);
+    }
   };
 
   const removeBackground = () => {
@@ -297,6 +304,8 @@ const Main = () => {
       z_index: 10,
       padding: 6,
       font: 22,
+      width: 200,
+      height: 100,
       title: "Add Your Text",
       weight: 400,
       color: "#3c3c3d",
@@ -536,33 +545,31 @@ const Main = () => {
             <div className="h-full w-[240px] text-gray-300 bg-[#252627] px-3 py-2 right-[0] fixed">
               {currentComponent && (
                 <div className="flex gap-6 flex-col items-start h-full px-3 justify-start mt-4">
-                  {currentComponent.name !== "text" && (
-                    <>
-                      <div className="flex gap-1 justify-start items-start">
-                        <span className="text-md w-[70px]">Width</span>
-                        <input
-                          onChange={(e) => setWidth(parseInt(e.target.value))}
-                          className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
-                          type="number"
-                          step={1}
-                          value={currentComponent.width}
-                        />
-                      </div>
+                  <>
+                    <div className="flex gap-1 justify-start items-start">
+                      <span className="text-md w-[70px]">Width</span>
+                      <input
+                        onChange={(e) => setWidth(parseInt(e.target.value))}
+                        className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
+                        type="number"
+                        step={1}
+                        value={currentComponent.width}
+                      />
+                    </div>
 
-                      <div className="flex gap-1 justify-start items-start">
-                        <span className="text-md w-[70px]">Height</span>
-                        <input
-                          onChange={(e) => setHeight(parseInt(e.target.value))}
-                          className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
-                          type="number"
-                          step={1}
-                          value={currentComponent.height}
-                        />
-                      </div>
-                    </>
-                  )}
+                    <div className="flex gap-1 justify-start items-start">
+                      <span className="text-md w-[70px]">Height</span>
+                      <input
+                        onChange={(e) => setHeight(parseInt(e.target.value))}
+                        className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
+                        type="number"
+                        step={1}
+                        value={currentComponent.height}
+                      />
+                    </div>
+                  </>
 
-                  <div className="flex gap-4 justify-start items-start mt-4">
+                  <div className="flex gap-4 justify-start items-start">
                     <span>Color :</span>
                     <label
                       className="w-[30px] h-[30px] cursor-pointer rounded-sm"
@@ -628,6 +635,19 @@ const Main = () => {
                           step={1}
                           value={currentComponent.rotate}
                         />
+                      </div>
+
+                      <div className="flex gap-1 justify-start items-start">
+                        <span className="text-md w-[70px]">Delete</span>
+
+                        <div
+                          onClick={() => removeComponent(currentComponent.id)}
+                          className="px-3 py-2 bg-white  group-hover:block cursor-pointer rounded-md"
+                        >
+                          <FaTrashAlt
+                            style={{ fontSize: "30px", color: "#555" }}
+                          />
+                        </div>
                       </div>
 
                       {currentComponent.name === "image" && (
