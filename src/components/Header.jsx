@@ -55,9 +55,11 @@ const Header = ({ components, design_id }) => {
   return (
     <div className="h-[60px] bg-gradient-to-r from-[#212122] via-[#27282b] to-[#2a2b2c] w-full">
       <div className="flex justify-between px-10 items-center text-gray-400 h-full">
-        <Link to="/">
-          <img src={logo} alt="" />
-        </Link>
+        <div className="w-[110px] h-[40px]">
+          <Link to="/">
+            <img className="w-full h-full" src={logo} alt="" />
+          </Link>{" "}
+        </div>
         <span className="text-xl">Editor Drag and Drop</span>
 
         <div className="flex justify-center items-center gap-2 text-gray-200">

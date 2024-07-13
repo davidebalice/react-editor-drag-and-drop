@@ -645,7 +645,7 @@ const Main = () => {
                           className="px-3 py-2 bg-white  group-hover:block cursor-pointer rounded-md"
                         >
                           <FaTrashAlt
-                            style={{ fontSize: "30px", color: "#555" }}
+                            style={{ fontSize: "14px", color: "#555" }}
                           />
                         </div>
                       </div>

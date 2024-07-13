@@ -1,12 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import config from "../../config";
 
 const Item = ({ design, delete_design, type }) => {
+  const [imageUrl, setImageUrl] = useState("");
+  const token = localStorage.getItem("token");
+  const url = `${config.designUrl}${design.image_url}?t=${token}`;
+
   return (
     <div
       className={`relative group w-full ${
-        type ? "h-[100px]" : "h-[170px] px-2"
+        type ? "h-[140px]" : "h-[170px] px-2"
       } `}
     >
       <Link
@@ -17,7 +22,7 @@ const Item = ({ design, delete_design, type }) => {
       >
         <img
           className="w-full h-full rounded-md overflow-hidden"
-          src={design.image_url}
+          src={`${url}`}
           alt=""
         />
       </Link>

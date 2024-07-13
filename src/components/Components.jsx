@@ -1,5 +1,4 @@
 import React from "react";
-import { FaTrashAlt } from "react-icons/fa";
 import config from "../config";
 import Controls from "./Controls";
 
@@ -58,14 +57,7 @@ const Components = ({ info, currentComponent, removeComponent }) => {
         }}
         className="absolute group"
       >
-        {currentComponent.id === info.id && (
-          <div
-            onClick={() => removeComponent(info.id)}
-            className="px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md"
-          >
-            <FaTrashAlt />
-          </div>
-        )}
+       
         <Controls id={randValue} info={info} exId="" />
       </div>
     );
@@ -98,14 +90,7 @@ const Components = ({ info, currentComponent, removeComponent }) => {
           }}
         ></div>
 
-        {currentComponent.id === info.id && (
-          <div
-            onClick={() => removeComponent(info.id)}
-            className="px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md"
-          >
-            <FaTrashAlt />
-          </div>
-        )}
+       
         <Controls id={randValue} info={info} exId={`${randValue}c`} />
       </div>
     );
@@ -136,14 +121,7 @@ const Components = ({ info, currentComponent, removeComponent }) => {
           }}
         ></div>
 
-        {currentComponent.id === info.id && (
-          <div
-            onClick={() => removeComponent(info.id)}
-            className="px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md"
-          >
-            <FaTrashAlt />
-          </div>
-        )}
+      
         <Controls id={randValue} info={info} exId={`${randValue}t`} />
       </div>
     );
@@ -178,14 +156,7 @@ const Components = ({ info, currentComponent, removeComponent }) => {
         >
           {info.title}
         </div>
-        {currentComponent.id === info.id && (
-          <div
-            onClick={() => removeComponent(info.id)}
-            className="px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md"
-          >
-            <FaTrashAlt />
-          </div>
-        )}
+  
         <Controls id={randValue} info={info} exId="" />
       </div>
     );
@@ -222,14 +193,7 @@ const Components = ({ info, currentComponent, removeComponent }) => {
           />
         </div>
 
-        {currentComponent.id === info.id && (
-          <div
-            onClick={() => removeComponent(info.id)}
-            className="px-3 py-2 bg-white absolute top-0 hidden group-hover:block cursor-pointer rounded-md"
-          >
-            <FaTrashAlt />
-          </div>
-        )}
+      
         <Controls id={randValue} info={info} exId={`${randValue}img`} />
       </div>
     );

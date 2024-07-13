@@ -49,7 +49,7 @@ const Layout = () => {
       <div className="bg-[#212223] shadow-md fixed left-0 top-0 w-full z-20">
         <div className="w-[93%] m-auto py-3">
           <div className="flex justify-between items-center">
-            <div className="w-[140px] h-[54px]">
+            <div className="w-[140px] h-[52px]">
               <img className="w-full h-full" src={logo} alt="" />
             </div>
 

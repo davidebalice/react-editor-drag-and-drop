@@ -230,7 +230,7 @@ const Index = () => {
       <div className="bg-[#212223] shadow-md">
         <div className="w-[93%] m-auto py-3">
           <div className="flex justify-between items-center">
-            <div className="w-[140px] h-[54px]">
+            <div className="w-[140px] h-[52px]">
               <img className="w-full h-full" src={logo} alt="" />
             </div>
 
