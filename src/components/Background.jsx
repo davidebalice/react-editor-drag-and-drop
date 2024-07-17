@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import api from "../utils/api";
 import Image from "./Image";
 
-const BackgroundImages = ({ setImage, type }) => {
+const Background = ({ setImage, type }) => {
   const [images, setImages] = useState([]);
 
   useEffect(() => {
@@ -17,7 +17,11 @@ const BackgroundImages = ({ setImage, type }) => {
     get_images();
   }, []);
 
-  return <Image setImage={setImage} type={type} images={images} />;
+  return (
+    <>
+      <Image setImage={setImage} type={type} images={images} />
+    </>
+  );
 };
 
-export default BackgroundImages;
+export default Background;

@@ -7,6 +7,7 @@ import CreateDesign from "./components/CreateDesign";
 import Home from "./components/Home";
 import Projects from "./components/Projects";
 import Templates from "./components/Templates";
+import { ComponentsProvider } from "./context/ComponentsContext";
 import Index from "./pages/Index";
 import Layout from "./pages/Layout";
 import Main from "./pages/Main";
@@ -44,7 +45,11 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <ComponentsProvider>
+      <RouterProvider router={router} />
+    </ComponentsProvider>
+  );
 }
 
 export default App;

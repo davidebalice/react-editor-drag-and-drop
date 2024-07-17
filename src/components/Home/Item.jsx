@@ -11,7 +11,7 @@ const Item = ({ design, delete_design, type }) => {
   return (
     <div
       className={`relative group w-full ${
-        type ? "h-[140px]" : "h-[170px] px-2"
+        type ? "h-[140px]" : "h-[240px] px-2"
       } `}
     >
       <Link

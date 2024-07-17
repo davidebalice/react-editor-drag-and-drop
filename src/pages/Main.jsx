@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsImages } from "react-icons/bs";
 import {
   FaCloudUploadAlt,
@@ -11,19 +11,23 @@ import { LuLayoutTemplate } from "react-icons/lu";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import { RxTransparencyGrid } from "react-icons/rx";
 import { useParams } from "react-router-dom";
-import BackgroundImages from "../components/BackgroundImages";
+import Background from "../components/Background";
 import CreateComponent from "../components/Components";
 import Header from "../components/Header";
 import Images from "../components/Images";
-import InitialImage from "../components/InitialImage";
 import TemplateDesign from "../components/main/TemplateDesign";
 import Projects from "../components/Projects";
+import UploadedImages from "../components/UploadImages";
+import { ComponentsContext } from "../context/ComponentsContext";
 import api from "../utils/api";
+
 const Main = () => {
+  const { components, setComponents, currentComponent, setCurrentComponent } =
+    useContext(ComponentsContext);
   const { design_id } = useParams();
 
   const [state, setState] = useState("");
-  const [currentComponent, setCurrentComponent] = useState("");
+  // const [currentComponent, setCurrentComponent] = useState("");
   const [color, setColor] = useState("");
   const [image, setImage] = useState("");
   const [rotate, setRotate] = useState(0);
@@ -53,6 +57,23 @@ const Main = () => {
       name,
     });
   };
+
+  useEffect(() => {
+    const newComponent = {
+      name: "main_frame",
+      type: "rect",
+      id: Math.floor(Math.random() * 100 + 1),
+      height: 500,
+      width: 650,
+      z_index: 1,
+      color: "#fff",
+      image: "",
+      setCurrentComponent: (a) => setCurrentComponent(a),
+    };
+    setComponents([...components, { newComponent }]);
+  }, []);
+
+  /*
   const [components, setComponents] = useState([
     {
       name: "main_frame",
@@ -66,7 +87,7 @@ const Main = () => {
       setCurrentComponent: (a) => setCurrentComponent(a),
     },
   ]);
-
+*/
   useEffect(() => {
     if (currentComponent) {
       const index = components.findIndex((c) => c.id === currentComponent.id);
@@ -142,10 +163,6 @@ const Main = () => {
     setCurrentComponent(currentInfo);
     let isMoving = true;
 
-    console.log("curentInfo");
-    console.log(width);
-    console.log(currentInfo.width);
-
     const currentDiv = document.getElementById(id);
 
     const mouseMove = ({ movementX, movementY }) => {
@@ -188,7 +205,9 @@ const Main = () => {
       const height = parseInt(getStyle.height);
       if (isMoving) {
         currentDiv.style.outline = "1px dashed #999";
-        currentDiv.style.background = "rgba(0,0,0,0.3)";
+        if (currentInfo.type !== "rect") {
+          currentDiv.style.background = "rgba(0,0,0,0.3)";
+        }
         currentDiv.style.width = `${width + movementX}px`;
         currentDiv.style.height = `${height + movementY}px`;
         currentDivChild.style.width = `${width + movementX}px`;
@@ -200,7 +219,9 @@ const Main = () => {
       enableSelection();
       isMoving = false;
       currentDiv.style.outline = "none";
-      currentDiv.style.background = "none";
+      if (currentInfo.type !== "rect") {
+        currentDiv.style.background = "none";
+      }
       window.removeEventListener("mousemove", mouseMove);
       window.removeEventListener("mouseup", mouseUp);
       setWidth(parseInt(currentDiv.style.width));
@@ -260,11 +281,15 @@ const Main = () => {
   };
 
   const removeBackground = () => {
-    const com = components.find((c) => c.id === currentComponent.id);
-    const temp = components.filter((c) => c.id !== currentComponent.id);
-    com.image = "";
+    const selectedComponent = components.find(
+      (c) => c.id === currentComponent.id
+    );
+    const otherComponents = components.filter(
+      (c) => c.id !== currentComponent.id
+    );
+    selectedComponent.image = "";
     setImage("");
-    setComponents([...temp, com]);
+    setComponents([...otherComponents, selectedComponent]);
   };
 
   const opacityHandle = (e) => {
@@ -320,12 +345,12 @@ const Main = () => {
     setComponents([...components, style]);
   };
 
-  const add_image = (img) => {
+  const add_image = (img, type) => {
     setCurrentComponent("");
     const style = {
       id: Date.now(),
       name: "image",
-      type: "image",
+      type: type,
       left: 10,
       top: 10,
       opacity: 1,
@@ -492,7 +517,7 @@ const Main = () => {
                 ></div>
               </div>
             )}
-            {state === "image" && <Images add_image={add_image} />}
+            {state === "image" && <UploadedImages add_image={add_image} />}
             {state === "text" && (
               <div>
                 <div className="grid grid-cols-1 gap-2">
@@ -510,12 +535,12 @@ const Main = () => {
             )}
             {state === "initImage" && (
               <div className="h-[88vh] overflow-x-auto flex justify-start items-start scrollbar-hide">
-                <InitialImage add_image={add_image} />
+                <Images add_image={add_image} />
               </div>
             )}
             {state === "background" && (
               <div className="h-[88vh] overflow-x-auto flex justify-start items-start scrollbar-hide">
-                <BackgroundImages type="background" setImage={setImage} />
+                <Background type="background" setImage={setImage} />
               </div>
             )}
           </div>

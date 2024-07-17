@@ -11,8 +11,12 @@ const Components = ({ info, currentComponent, removeComponent }) => {
   const currentSize = (currentInfo) => {
     //currentInfo.setCurrentComponent(currentInfo);
     const currentDiv = document.getElementById(currentInfo.id);
-    currentDiv.style.width = currentInfo.width + "px";
-    currentDiv.style.height = currentInfo.height + "px";
+    if (currentDiv) {
+      if (currentDiv.style.width) {
+        currentDiv.style.width = parseInt(currentInfo.width) + "px";
+        currentDiv.style.height = parseInt(currentInfo.height) + "px";
+      }
+    }
   };
 
   if (info.name === "main_frame") {
@@ -31,7 +35,7 @@ const Components = ({ info, currentComponent, removeComponent }) => {
         {info.image && (
           <img
             className="w-full h-full"
-            src={`${config.imageUrl}${info.image}?t=${token}`}
+            src={`${config.backgroundUrl}${info.image}?t=${token}`}
             alt="image"
           />
         )}
@@ -57,7 +61,6 @@ const Components = ({ info, currentComponent, removeComponent }) => {
         }}
         className="absolute group"
       >
-       
         <Controls id={randValue} info={info} exId="" />
       </div>
     );
@@ -90,7 +93,6 @@ const Components = ({ info, currentComponent, removeComponent }) => {
           }}
         ></div>
 
-       
         <Controls id={randValue} info={info} exId={`${randValue}c`} />
       </div>
     );
@@ -121,7 +123,6 @@ const Components = ({ info, currentComponent, removeComponent }) => {
           }}
         ></div>
 
-      
         <Controls id={randValue} info={info} exId={`${randValue}t`} />
       </div>
     );
@@ -156,7 +157,7 @@ const Components = ({ info, currentComponent, removeComponent }) => {
         >
           {info.title}
         </div>
-  
+
         <Controls id={randValue} info={info} exId="" />
       </div>
     );
@@ -186,14 +187,21 @@ const Components = ({ info, currentComponent, removeComponent }) => {
             borderRadius: `${info.radius}%`,
           }}
         >
-          <img
-            className="w-full h-full"
-            src={`${config.imageUrl}${info.image}?t=${token}`}
-            alt="image"
-          />
+          {info.type == "upload" ? (
+            <img
+              className="w-full h-full"
+              src={`${config.uploadImageUrl}${info.image}?t=${token}`}
+              alt="image"
+            />
+          ) : (
+            <img
+              className="w-full h-full"
+              src={`${config.imagesUrl}${info.image}?t=${token}`}
+              alt="image"
+            />
+          )}
         </div>
 
-      
         <Controls id={randValue} info={info} exId={`${randValue}img`} />
       </div>
     );

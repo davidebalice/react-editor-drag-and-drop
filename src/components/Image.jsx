@@ -1,8 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import config from "../config";
+import { useComponentsContext } from "../context/ComponentsContext";
 
 const Image = ({ add_image, images, type, setImage }) => {
   const token = localStorage.getItem("token");
+
+  const [directory, setDirectory] = useState("");
+  const [typeImage, setTypeImage] = useState("image");
+
+  const { components, setComponents, setCurrentComponent } =
+    useComponentsContext();
+
+  const setBackground = (image) => {
+    const selectedComponent = components.find((c) => c.name === "main_frame");
+    const otherComponents = components.filter((c) => c.name !== "main_frame");
+    selectedComponent.image = image;
+    setImage(image);
+    setComponents([...otherComponents, selectedComponent]);
+    setCurrentComponent(selectedComponent);
+  };
+
+  useEffect(() => {
+    if (type === "background") {
+      setDirectory(config.backgroundUrl);
+    } else if (type === "uploadImage") {
+      setDirectory(config.uploadImageUrl);
+      setTypeImage("upload");
+    } else if (type === "design") {
+      setDirectory(config.designUrl);
+    } else {
+      setDirectory(config.imagesUrl);
+    }
+  }, [type]);
+
   return (
     <div className="grid grid-cols-2 gap-2">
       {images.map((item, i) => (
@@ -10,14 +40,14 @@ const Image = ({ add_image, images, type, setImage }) => {
           key={i}
           onClick={() =>
             type === "background"
-              ? setImage(item.image_url)
-              : add_image(item.image_url)
+              ? setBackground(item.image_url)
+              : add_image(item.image_url, typeImage)
           }
           className="w-full h-[90px] overflow-hidden rounded-md cursor-pointer"
         >
           <img
             className="w-full h-full"
-            src={`${config.imageUrl}${item.image_url}?t=${token}`}
+            src={`${directory}${item.image_url}?t=${token}`}
             alt=""
           />
         </div>
