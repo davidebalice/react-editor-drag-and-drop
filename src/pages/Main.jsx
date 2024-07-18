@@ -60,11 +60,11 @@ const Main = () => {
 
   useEffect(() => {
     const newComponent = {
-      name: "main_frame",
+      name: "background",
       type: "rect",
       id: Math.floor(Math.random() * 100 + 1),
-      height: 500,
-      width: 650,
+      width: 800,
+      height: 600,
       z_index: 1,
       color: "#fff",
       image: "",
@@ -73,21 +73,6 @@ const Main = () => {
     setComponents([...components, { newComponent }]);
   }, []);
 
-  /*
-  const [components, setComponents] = useState([
-    {
-      name: "main_frame",
-      type: "rect",
-      id: Math.floor(Math.random() * 100 + 1),
-      height: 500,
-      width: 650,
-      z_index: 1,
-      color: "#fff",
-      image: "",
-      setCurrentComponent: (a) => setCurrentComponent(a),
-    },
-  ]);
-*/
   useEffect(() => {
     if (currentComponent) {
       const index = components.findIndex((c) => c.id === currentComponent.id);
@@ -109,11 +94,11 @@ const Main = () => {
         components[index].radius = radius || currentComponent.radius;
       }
 
-      if (currentComponent.name === "main_frame" && image) {
+      if (currentComponent.name === "background" && image) {
         components[index].image = image || currentComponent.image;
       }
 
-      if (currentComponent.name !== "main_frame") {
+      if (currentComponent.name !== "background") {
         components[index].left = left || currentComponent.left;
         components[index].top = top || currentComponent.top;
         components[index].opacity = opacity || currentComponent.opacity;
@@ -200,17 +185,46 @@ const Main = () => {
 
     const mouseMove = ({ movementX, movementY }) => {
       disableSelection();
+
       const getStyle = window.getComputedStyle(currentDiv);
-      const width = parseInt(getStyle.width);
+      let newLeft = parseInt(getStyle.left);
+      let newTop = parseInt(getStyle.top);
+      let newWidth = parseInt(getStyle.width);
+      let newHeight = parseInt(getStyle.height);
+
       const height = parseInt(getStyle.height);
+
       if (isMoving) {
         currentDiv.style.outline = "1px dashed #999";
         if (currentInfo.type !== "rect") {
           currentDiv.style.background = "rgba(0,0,0,0.3)";
         }
-        currentDiv.style.width = `${width + movementX}px`;
+        console.log("movementX:", movementX);
+        const direction = "left";
+
+        console.log(
+          "newWidth:",
+          newWidth,
+          "newLeft:",
+          newLeft,
+          "newTop:",
+          newTop
+        );
+
+        if (direction === "left") {
+          newWidth -= movementX;
+          newLeft += movementX;
+          currentDiv.style.left = `${newLeft}px`;
+        } else if (direction === "right") {
+          newWidth += movementX;
+        }
+        console.log("newWidth:", newWidth, "newLeft:", newLeft);
+
+        console.log(newLeft);
+
+        currentDiv.style.width = `${newWidth}px`;
         currentDiv.style.height = `${height + movementY}px`;
-        currentDivChild.style.width = `${width + movementX}px`;
+        currentDivChild.style.width = `${newWidth}px`;
         currentDivChild.style.height = `${height + movementY}px`;
       }
     };
@@ -231,6 +245,81 @@ const Main = () => {
     window.addEventListener("mousemove", mouseMove);
     window.addEventListener("mouseup", mouseUp);
   };
+
+  /*
+  const resizeElement = (id, currentInfo, direction) => {
+    setCurrentComponent(currentInfo);
+
+    direction = "topLeft";
+
+    let isMoving = true;
+    const currentDiv = document.getElementById(id);
+    const currentDivChild = currentDiv.children[0];
+
+    const rect = currentDiv.getBoundingClientRect();
+    const startX = rect.left;
+    const startY = rect.top;
+
+    const mouseMove = ({ movementX, movementY, clientX, clientY }) => {
+      disableSelection();
+
+      let newWidth = parseInt(currentDiv.style.width);
+      let newHeight = parseInt(currentDiv.style.height);
+      let newLeft = parseInt(currentDiv.style.left);
+      let newTop = parseInt(currentDiv.style.top);
+
+      if (isMoving) {
+        currentDiv.style.outline = "1px dashed #999";
+        if (currentInfo.type !== "rect") {
+          currentDiv.style.background = "rgba(0,0,0,0.3)";
+        }
+
+        // Ridimensionamento verso destra o verso il basso
+        if (direction === "bottomRight" || direction === "topRight") {
+          newWidth += movementX;
+        }
+        if (direction === "bottomRight" || direction === "bottomLeft") {
+          newHeight += movementY;
+        }
+
+        // Ridimensionamento verso sinistra o verso l'alto
+        if (direction === "bottomLeft" || direction === "topLeft") {
+          newWidth -= movementX;
+          newLeft += movementX;
+        }
+        if (direction === "topLeft" || direction === "topRight") {
+          newHeight -= movementY;
+          newTop += movementY;
+        }
+
+        // Applica le nuove dimensioni e posizioni
+        currentDiv.style.width = `${newWidth}px`;
+        currentDiv.style.height = `${newHeight}px`;
+        currentDiv.style.left = `${newLeft}px`;
+        currentDiv.style.top = `${newTop}px`;
+
+        currentDivChild.style.width = `${newWidth}px`;
+        currentDivChild.style.height = `${newHeight}px`;
+
+
+      }
+    };
+
+    const mouseUp = () => {
+      enableSelection();
+      isMoving = false;
+      currentDiv.style.outline = "none";
+      if (currentInfo.type !== "rect") {
+        currentDiv.style.background = "none";
+      }
+      window.removeEventListener("mousemove", mouseMove);
+      window.removeEventListener("mouseup", mouseUp);
+    };
+
+    window.addEventListener("mousemove", mouseMove);
+    window.addEventListener("mouseup", mouseUp);
+  };
+*/
 
   const rotateElement = (id, currentInfo) => {
     setCurrentComponent(currentInfo);
@@ -551,7 +640,7 @@ const Main = () => {
                 !currentComponent ? "w-full" : "w-[100%] overflow-hidden"
               }`}
             >
-              <div className="m-w-[650px] m-h-[500px] flex justify-center items-center overflow-hidden">
+              <div className="m-w-[800px] m-h-[600px] flex justify-center items-center overflow-hidden">
                 <div
                   id="main_design"
                   className="w-auto relative h-auto overflow-hidden"
@@ -615,7 +704,7 @@ const Main = () => {
                       id="color"
                     />
                   </div>
-                  {currentComponent.name === "main_frame" &&
+                  {currentComponent.name === "background" &&
                     currentComponent.image && (
                       <div
                         className="p-[6px] bg-slate-600 text-white cursor-pointer"
@@ -625,7 +714,7 @@ const Main = () => {
                       </div>
                     )}
 
-                  {currentComponent.name !== "main_frame" && (
+                  {currentComponent.name !== "background" && (
                     <div className="flex gap-6 flex-col">
                       <div className="flex gap-1 justify-start items-start">
                         <span className="text-md w-[70px]">Opacity</span>

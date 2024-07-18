@@ -19,7 +19,7 @@ const Components = ({ info, currentComponent, removeComponent }) => {
     }
   };
 
-  if (info.name === "main_frame") {
+  if (info.name === "background") {
     html = (
       <div
         onMouseEnter={() => currentSize(info)}

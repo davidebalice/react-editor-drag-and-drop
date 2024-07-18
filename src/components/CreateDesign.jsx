@@ -9,9 +9,8 @@ const CreateDesign = () => {
   const ref = useRef();
   const { state } = useLocation();
   const navigate = useNavigate();
-
   const obj = {
-    name: "main_frame",
+    name: "background",
     type: "rect",
     id: Math.floor(Math.random() * 100 + 1),
     height: state.height,

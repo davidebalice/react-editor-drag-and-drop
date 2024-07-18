@@ -12,8 +12,8 @@ const Image = ({ add_image, images, type, setImage }) => {
     useComponentsContext();
 
   const setBackground = (image) => {
-    const selectedComponent = components.find((c) => c.name === "main_frame");
-    const otherComponents = components.filter((c) => c.name !== "main_frame");
+    const selectedComponent = components.find((c) => c.name === "background");
+    const otherComponents = components.filter((c) => c.name !== "background");
     selectedComponent.image = image;
     setImage(image);
     setComponents([...otherComponents, selectedComponent]);
