@@ -134,6 +134,7 @@ const Main = () => {
     text,
     radius,
     rotate,
+    currentComponent
   ]);
 
   const disableSelection = () => {
@@ -176,11 +177,13 @@ const Main = () => {
     window.addEventListener("mouseup", mouseUp);
   };
 
-  const resizeElement = (id, currentInfo) => {
+  const resizeElement = (id, currentInfo, direction, directionY) => {
     setCurrentComponent(currentInfo);
 
+   
     let isMoving = true;
     const currentDiv = document.getElementById(id);
+  
     const currentDivChild = currentDiv.children[0];
 
     const mouseMove = ({ movementX, movementY }) => {
@@ -192,24 +195,11 @@ const Main = () => {
       let newWidth = parseInt(getStyle.width);
       let newHeight = parseInt(getStyle.height);
 
-      const height = parseInt(getStyle.height);
-
       if (isMoving) {
         currentDiv.style.outline = "1px dashed #999";
         if (currentInfo.type !== "rect") {
           currentDiv.style.background = "rgba(0,0,0,0.3)";
         }
-        console.log("movementX:", movementX);
-        const direction = "left";
-
-        console.log(
-          "newWidth:",
-          newWidth,
-          "newLeft:",
-          newLeft,
-          "newTop:",
-          newTop
-        );
 
         if (direction === "left") {
           newWidth -= movementX;
@@ -218,14 +208,21 @@ const Main = () => {
         } else if (direction === "right") {
           newWidth += movementX;
         }
-        console.log("newWidth:", newWidth, "newLeft:", newLeft);
 
-        console.log(newLeft);
+        if (directionY === "top") {
+          newHeight -= movementY;
+          newTop += movementY;
+          currentDiv.style.top = `${newTop}px`;
+        } else if (directionY === "bottom") {
+          newHeight += movementY;
+        }
 
         currentDiv.style.width = `${newWidth}px`;
-        currentDiv.style.height = `${height + movementY}px`;
+        currentDiv.style.height = `${newHeight}px`;
         currentDivChild.style.width = `${newWidth}px`;
-        currentDivChild.style.height = `${height + movementY}px`;
+        currentDivChild.style.height = `${newHeight}px`;
+        setTop(parseInt(currentDiv.style.top));
+        setLeft(parseInt(currentDiv.style.left));
       }
     };
 
@@ -245,81 +242,6 @@ const Main = () => {
     window.addEventListener("mousemove", mouseMove);
     window.addEventListener("mouseup", mouseUp);
   };
-
-  /*
-  const resizeElement = (id, currentInfo, direction) => {
-    setCurrentComponent(currentInfo);
-
-    direction = "topLeft";
-
-    let isMoving = true;
-    const currentDiv = document.getElementById(id);
-    const currentDivChild = currentDiv.children[0];
-
-    const rect = currentDiv.getBoundingClientRect();
-    const startX = rect.left;
-    const startY = rect.top;
-
-    const mouseMove = ({ movementX, movementY, clientX, clientY }) => {
-      disableSelection();
-
-      let newWidth = parseInt(currentDiv.style.width);
-      let newHeight = parseInt(currentDiv.style.height);
-      let newLeft = parseInt(currentDiv.style.left);
-      let newTop = parseInt(currentDiv.style.top);
-
-      if (isMoving) {
-        currentDiv.style.outline = "1px dashed #999";
-        if (currentInfo.type !== "rect") {
-          currentDiv.style.background = "rgba(0,0,0,0.3)";
-        }
-
-        // Ridimensionamento verso destra o verso il basso
-        if (direction === "bottomRight" || direction === "topRight") {
-          newWidth += movementX;
-        }
-        if (direction === "bottomRight" || direction === "bottomLeft") {
-          newHeight += movementY;
-        }
-
-        // Ridimensionamento verso sinistra o verso l'alto
-        if (direction === "bottomLeft" || direction === "topLeft") {
-          newWidth -= movementX;
-          newLeft += movementX;
-        }
-        if (direction === "topLeft" || direction === "topRight") {
-          newHeight -= movementY;
-          newTop += movementY;
-        }
-
-        // Applica le nuove dimensioni e posizioni
-        currentDiv.style.width = `${newWidth}px`;
-        currentDiv.style.height = `${newHeight}px`;
-        currentDiv.style.left = `${newLeft}px`;
-        currentDiv.style.top = `${newTop}px`;
-
-        currentDivChild.style.width = `${newWidth}px`;
-        currentDivChild.style.height = `${newHeight}px`;
-
-
-      }
-    };
-
-    const mouseUp = () => {
-      enableSelection();
-      isMoving = false;
-      currentDiv.style.outline = "none";
-      if (currentInfo.type !== "rect") {
-        currentDiv.style.background = "none";
-      }
-      window.removeEventListener("mousemove", mouseMove);
-      window.removeEventListener("mouseup", mouseUp);
-    };
-
-    window.addEventListener("mousemove", mouseMove);
-    window.addEventListener("mouseup", mouseUp);
-  };
-*/
 
   const rotateElement = (id, currentInfo) => {
     setCurrentComponent(currentInfo);

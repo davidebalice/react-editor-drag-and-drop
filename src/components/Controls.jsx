@@ -11,20 +11,26 @@ const Controls = ({ id, info, exId }) => {
       ></div>
       <>
         <div
-          onMouseDown={() => info.resizeElement(elementId, info)}
-          className="hidden absolute group-hover:block -bottom-[7px] -right-[7px] w-[14px] h-[14px] cursor-nesw-resize bg-green-600 z-[99999] "
+          onMouseDown={() =>
+            info.resizeElement(elementId, info, "right", "bottom")
+          }
+          className="hidden absolute group-hover:block -bottom-[7px] -right-[7px] w-[14px] h-[14px] cursor-nwse-resize bg-green-600 z-[99999] "
         ></div>
         <div
-          onMouseDown={() => info.resizeElement(elementId, info)}
+          onMouseDown={() =>
+            info.resizeElement(elementId, info, "right", "top")
+          }
           className="hidden absolute group-hover:block -top-[7px] -right-[7px] w-[14px] h-[14px] cursor-nesw-resize bg-green-600 z-[99999] "
         ></div>
         <div
-          onMouseDown={() => info.resizeElement(elementId, info)}
+          onMouseDown={() =>
+            info.resizeElement(elementId, info, "left", "bottom")
+          }
           className="hidden absolute group-hover:block -bottom-[7px] -left-[7px] w-[14px] h-[14px] cursor-nesw-resize bg-green-600 z-[99999] "
         ></div>
         <div
-          onMouseDown={() => info.resizeElement(elementId, info)}
-          className="hidden absolute group-hover:block -top-[7px] -left-[7px] w-[14px] h-[14px] cursor-nesw-resize bg-green-600 z-[99999] "
+          onMouseDown={() => info.resizeElement(elementId, info, "left", "top")}
+          className="hidden absolute group-hover:block -top-[7px] -left-[7px] w-[14px] h-[14px] cursor-nwse-resize bg-green-600 z-[99999] "
         ></div>
       </>
     </>

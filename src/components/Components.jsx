@@ -1,15 +1,17 @@
-import React from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import config from "../config";
+import { ComponentsContext } from "../context/ComponentsContext";
 import Controls from "./Controls";
 
-const Components = ({ info, currentComponent, removeComponent }) => {
-  //const randValue = Math.floor(Math.random() * 100);
-  const randValue = info.id;
+const Components = ({ info }) => {
+  const { currentComponent, setCurrentComponent } =
+    useContext(ComponentsContext);
+  const componentId = info.id;
+  const [selectedId, setSelectedId] = useState(info.id);
   const token = localStorage.getItem("token");
   let html = "";
 
   const currentSize = (currentInfo) => {
-    //currentInfo.setCurrentComponent(currentInfo);
     const currentDiv = document.getElementById(currentInfo.id);
     if (currentDiv) {
       if (currentDiv.style.width) {
@@ -19,10 +21,21 @@ const Components = ({ info, currentComponent, removeComponent }) => {
     }
   };
 
+
+  const handleClick = (info) => {
+    handleHover(info);
+  };
+
+  const handleHover = (info) => {
+    setSelectedId(info.id);
+    currentSize(info);
+    setCurrentComponent(info);
+  };
+
+
   if (info.name === "background") {
     html = (
       <div
-        onMouseEnter={() => currentSize(info)}
         onClick={() => info.setCurrentComponent(info)}
         className="shadow-md"
         style={{
@@ -46,9 +59,10 @@ const Components = ({ info, currentComponent, removeComponent }) => {
   if (info.name === "shape" && info.type === "rect") {
     html = (
       <div
-        id={randValue}
-        onMouseEnter={() => currentSize(info)}
-        onClick={() => info.setCurrentComponent(info)}
+        id={componentId}
+        onMouseEnter={() => handleHover(info)}
+        onClick={() => handleClick(info)}
+        onMouseDown={() => handleHover(info)}
         style={{
           width: info.width + "px",
           height: info.height + "px",
@@ -61,7 +75,7 @@ const Components = ({ info, currentComponent, removeComponent }) => {
         }}
         className="absolute group"
       >
-        <Controls id={randValue} info={info} exId="" />
+        <Controls id={componentId} info={info} exId="" />
       </div>
     );
   }
@@ -69,9 +83,10 @@ const Components = ({ info, currentComponent, removeComponent }) => {
   if (info.name === "shape" && info.type === "circle") {
     html = (
       <div
-        id={randValue}
-        onMouseEnter={() => currentSize(info)}
-        onClick={() => info.setCurrentComponent(info)}
+        id={componentId}
+        onMouseEnter={() => handleHover(info)}
+        onClick={() => handleClick(info)}
+        onMouseDown={() => handleHover(info)}
         style={{
           left: info.left + "px",
           top: info.top + "px",
@@ -83,7 +98,7 @@ const Components = ({ info, currentComponent, removeComponent }) => {
         className="absolute group"
       >
         <div
-          id={`${randValue}c`}
+          id={`${componentId}c`}
           className="rounded-full"
           style={{
             width: info.width + "px",
@@ -93,7 +108,7 @@ const Components = ({ info, currentComponent, removeComponent }) => {
           }}
         ></div>
 
-        <Controls id={randValue} info={info} exId={`${randValue}c`} />
+        <Controls id={componentId} info={info} exId={`${componentId}c`} />
       </div>
     );
   }
@@ -101,9 +116,10 @@ const Components = ({ info, currentComponent, removeComponent }) => {
   if (info.name === "shape" && info.type === "triangle") {
     html = (
       <div
-        id={randValue}
-        onMouseEnter={() => currentSize(info)}
-        onClick={() => info.setCurrentComponent(info)}
+        id={componentId}
+        onMouseEnter={() => handleHover(info)}
+        onClick={() => handleClick(info)}
+        onMouseDown={() => handleHover(info)}
         style={{
           left: info.left + "px",
           top: info.top + "px",
@@ -113,7 +129,7 @@ const Components = ({ info, currentComponent, removeComponent }) => {
         className="absolute group"
       >
         <div
-          id={`${randValue}t`}
+          id={`${componentId}t`}
           style={{
             width: info.width + "px",
             height: info.height + "px",
@@ -123,7 +139,7 @@ const Components = ({ info, currentComponent, removeComponent }) => {
           }}
         ></div>
 
-        <Controls id={randValue} info={info} exId={`${randValue}t`} />
+        <Controls id={componentId} info={info} exId={`${componentId}t`} />
       </div>
     );
   }
@@ -131,9 +147,10 @@ const Components = ({ info, currentComponent, removeComponent }) => {
   if (info.name === "text") {
     html = (
       <div
-        id={randValue}
-        onMouseEnter={() => currentSize(info)}
-        onClick={() => info.setCurrentComponent(info)}
+        id={info.id}
+        onMouseEnter={() => handleHover(info)}
+        onClick={() => handleClick(info)}
+        onMouseDown={() => handleHover(info)}
         style={{
           left: info.left + "px",
           top: info.top + "px",
@@ -157,8 +174,7 @@ const Components = ({ info, currentComponent, removeComponent }) => {
         >
           {info.title}
         </div>
-
-        <Controls id={randValue} info={info} exId="" />
+        <Controls id={info.id} info={info} />
       </div>
     );
   }
@@ -166,9 +182,10 @@ const Components = ({ info, currentComponent, removeComponent }) => {
   if (info.name === "image") {
     html = (
       <div
-        id={randValue}
-        onMouseEnter={() => currentSize(info)}
-        onClick={() => info.setCurrentComponent(info)}
+        id={componentId}
+        onMouseEnter={() => handleHover(info)}
+        onClick={() => handleClick(info)}
+        onMouseDown={() => handleHover(info)}
         style={{
           left: info.left + "px",
           top: info.top + "px",
@@ -180,7 +197,7 @@ const Components = ({ info, currentComponent, removeComponent }) => {
       >
         <div
           className="overflow-hidden"
-          id={`${randValue}img`}
+          id={`${componentId}img`}
           style={{
             width: info.width + "px",
             height: info.height + "px",
@@ -202,7 +219,7 @@ const Components = ({ info, currentComponent, removeComponent }) => {
           )}
         </div>
 
-        <Controls id={randValue} info={info} exId={`${randValue}img`} />
+        <Controls id={componentId} info={info} exId={`${componentId}img`} />
       </div>
     );
   }
