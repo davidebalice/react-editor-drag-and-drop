@@ -134,7 +134,7 @@ const Main = () => {
     text,
     radius,
     rotate,
-    currentComponent
+    currentComponent,
   ]);
 
   const disableSelection = () => {
@@ -180,10 +180,9 @@ const Main = () => {
   const resizeElement = (id, currentInfo, direction, directionY) => {
     setCurrentComponent(currentInfo);
 
-   
     let isMoving = true;
     const currentDiv = document.getElementById(id);
-  
+
     const currentDivChild = currentDiv.children[0];
 
     const mouseMove = ({ movementX, movementY }) => {
@@ -248,6 +247,7 @@ const Main = () => {
     const target = document.getElementById(id);
 
     const mouseMove = ({ movementX, movementY }) => {
+      disableSelection();
       const getStyle = window.getComputedStyle(target);
       const trans = getStyle.transform;
 
@@ -265,6 +265,7 @@ const Main = () => {
 
     const mouseUp = (e) => {
       e.preventDefault();
+      enableSelection();
       window.removeEventListener("mousemove", mouseMove);
       window.removeEventListener("mouseup", mouseUp);
 
@@ -406,7 +407,6 @@ const Main = () => {
   return (
     <div className="min-w-screen h-screen bg-black">
       <Header components={components} design_id={design_id} />
-
       <div className="flex h-[calc(100%-60px)] w-screen">
         <div className="w-[80px] bg-[#18191B] z-50 h-full text-gray-400 overflow-y-auto">
           <div
@@ -558,11 +558,18 @@ const Main = () => {
 
           <div className="w-full flex h-full">
             <div
-              className={`flex justify-center relative items-center h-full ${
-                !currentComponent ? "w-full" : "w-[100%] overflow-hidden"
+              className={`flex column justify-center relative items-center h-full flexColumn ${
+                !currentComponent ? "w-full" : "w-[100%] overflow-hidden "
               }`}
             >
-              <div className="m-w-[800px] m-h-[600px] flex justify-center items-center overflow-hidden">
+              <div className="helpMessage">
+                Click on a content to access controls
+              </div>
+
+              <div
+                className="m-w-[800px] m-h-[600px] flex justify-center items-center overflow-hidden"
+                style={{ border: "2px solid red" }}
+              >
                 <div
                   id="main_design"
                   className="w-auto relative h-auto overflow-hidden"

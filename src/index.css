@@ -18,3 +18,20 @@ body {
 .bgHover {
   background: rgba(0, 0, 0, 0.3);
 }
+
+.helpMessage {
+  color: white;
+  margin-bottom: 8px;
+}
+
+.flexColumn {
+  flex-direction: column;
+}
+
+.content{
+  cursor:pointer
+}
+
+.black{
+  color:#222
+}

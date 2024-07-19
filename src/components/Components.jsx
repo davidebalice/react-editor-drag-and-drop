@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 import config from "../config";
 import { ComponentsContext } from "../context/ComponentsContext";
 import Controls from "./Controls";
@@ -7,7 +7,6 @@ const Components = ({ info }) => {
   const { currentComponent, setCurrentComponent } =
     useContext(ComponentsContext);
   const componentId = info.id;
-  const [selectedId, setSelectedId] = useState(info.id);
   const token = localStorage.getItem("token");
   let html = "";
 
@@ -21,17 +20,14 @@ const Components = ({ info }) => {
     }
   };
 
-
   const handleClick = (info) => {
     handleHover(info);
   };
 
   const handleHover = (info) => {
-    setSelectedId(info.id);
     currentSize(info);
     setCurrentComponent(info);
   };
-
 
   if (info.name === "background") {
     html = (
@@ -60,7 +56,6 @@ const Components = ({ info }) => {
     html = (
       <div
         id={componentId}
-        onMouseEnter={() => handleHover(info)}
         onClick={() => handleClick(info)}
         onMouseDown={() => handleHover(info)}
         style={{
@@ -73,9 +68,14 @@ const Components = ({ info }) => {
           zIndex: info.z_index,
           transform: info.rotate ? `rotate(${info.rotate}deg)` : "rotate(0deg)",
         }}
-        className="absolute group"
+        className="absolute group content"
       >
-        <Controls id={componentId} info={info} exId="" />
+        <Controls
+          id={componentId}
+          info={info}
+          exId=""
+          showControls={currentComponent ? currentComponent.id === info.id : false}
+        />
       </div>
     );
   }
@@ -84,7 +84,6 @@ const Components = ({ info }) => {
     html = (
       <div
         id={componentId}
-        onMouseEnter={() => handleHover(info)}
         onClick={() => handleClick(info)}
         onMouseDown={() => handleHover(info)}
         style={{
@@ -95,7 +94,7 @@ const Components = ({ info }) => {
           zIndex: info.z_index,
           transform: info.rotate ? `rotate(${info.rotate}deg)` : "rotate(0deg)",
         }}
-        className="absolute group"
+        className="absolute group content"
       >
         <div
           id={`${componentId}c`}
@@ -107,8 +106,14 @@ const Components = ({ info }) => {
             opacity: info.opacity,
           }}
         ></div>
-
-        <Controls id={componentId} info={info} exId={`${componentId}c`} />
+        <Controls
+          id={componentId}
+          info={info}
+          exId={`${componentId}c`}
+          showControls={
+            currentComponent ? currentComponent.id === info.id : false
+          }
+        />
       </div>
     );
   }
@@ -117,7 +122,6 @@ const Components = ({ info }) => {
     html = (
       <div
         id={componentId}
-        onMouseEnter={() => handleHover(info)}
         onClick={() => handleClick(info)}
         onMouseDown={() => handleHover(info)}
         style={{
@@ -126,7 +130,7 @@ const Components = ({ info }) => {
           zIndex: info.z_index,
           transform: info.rotate ? `rotate(${info.rotate}deg)` : "rotate(0deg)",
         }}
-        className="absolute group"
+        className="absolute group content"
       >
         <div
           id={`${componentId}t`}
@@ -138,8 +142,12 @@ const Components = ({ info }) => {
             clipPath: "polygon(50% 0, 100% 100%, 0 100%)",
           }}
         ></div>
-
-        <Controls id={componentId} info={info} exId={`${componentId}t`} />
+        <Controls
+          id={componentId}
+          info={info}
+          exId={`${componentId}t`}
+          showControls={currentComponent ? currentComponent.id === info.id : false}
+        />
       </div>
     );
   }
@@ -148,7 +156,6 @@ const Components = ({ info }) => {
     html = (
       <div
         id={info.id}
-        onMouseEnter={() => handleHover(info)}
         onClick={() => handleClick(info)}
         onMouseDown={() => handleHover(info)}
         style={{
@@ -162,7 +169,7 @@ const Components = ({ info }) => {
           color: info.color,
           opacity: info.opacity,
         }}
-        className="absolute group"
+        className="absolute group content"
       >
         <div
           style={{
@@ -174,7 +181,11 @@ const Components = ({ info }) => {
         >
           {info.title}
         </div>
-        <Controls id={info.id} info={info} />
+        <Controls
+          id={info.id}
+          info={info}
+          showControls={currentComponent ? currentComponent.id === info.id : false}
+        />
       </div>
     );
   }
@@ -183,7 +194,6 @@ const Components = ({ info }) => {
     html = (
       <div
         id={componentId}
-        onMouseEnter={() => handleHover(info)}
         onClick={() => handleClick(info)}
         onMouseDown={() => handleHover(info)}
         style={{
@@ -193,7 +203,7 @@ const Components = ({ info }) => {
           opacity: info.opacity,
           transform: info.rotate ? `rotate(${info.rotate}deg)` : "rotate(0deg)",
         }}
-        className="absolute group"
+        className="absolute group content"
       >
         <div
           className="overflow-hidden"
@@ -218,8 +228,12 @@ const Components = ({ info }) => {
             />
           )}
         </div>
-
-        <Controls id={componentId} info={info} exId={`${componentId}img`} />
+        <Controls
+          id={componentId}
+          info={info}
+          exId={`${componentId}img`}
+          showControls={currentComponent ? currentComponent.id === info.id : false}
+        />
       </div>
     );
   }
