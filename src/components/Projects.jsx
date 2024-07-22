@@ -34,20 +34,23 @@ const Projects = ({ type, design_id }) => {
       <div
         className={
           type
-            ? "grid grid-cols-2 gap-2 mt-5 w-full"
-            : "grid grid-cols-4 mt-5 w-full"
+            ? "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+            : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+        
         }
       >
         {designs && designs.length > 0 ? (
           designs.map(
             (d, i) =>
               d._id !== design_id && (
-                <Item
+                
+                <><Item
                   key={i}
                   design={d}
                   type={type}
                   delete_design={delete_design}
-                />
+                /></>
+              
               )
           )
         ) : (

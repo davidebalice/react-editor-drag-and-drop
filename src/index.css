@@ -28,10 +28,15 @@ body {
   flex-direction: column;
 }
 
-.content{
-  cursor:pointer
+.content {
+  cursor: pointer;
 }
 
-.black{
-  color:#222
+.black {
+  color: #222;
+}
+
+.loginBg {
+  background: url("./assets/images/bg.jpg") !important;
+  background-size: cover !important;
 }

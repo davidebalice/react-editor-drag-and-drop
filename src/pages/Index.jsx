@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { BiLogoGmail } from "react-icons/bi";
-import { FaFacebook } from "react-icons/fa";
-import { RxCross2 } from "react-icons/rx";
 import logo from "../assets/images/logoWhite.png";
 import api from "../utils/api";
 
 const Index = () => {
-  const [type, setType] = useState("");
-  const [show, setShow] = useState(false);
+  const [type, setType] = useState("login");
+  const [show, setShow] = useState(true);
   const [loader, setLoader] = useState(false);
 
   const [state, setState] = useState({
@@ -68,24 +65,22 @@ const Index = () => {
   //end method
 
   return (
-    <div className="bg-[#18191b] min-h-screen w-full ">
-      <div
-        className={`w-screen ${
-          show ? "visible opacity-100" : "invisible opacity-30"
-        } transition-all duration-500 h-screen fixed bg-[#252627ad] flex justify-center items-center `}
-      >
-        <div className="w-[350px] bg-[#323335] m-auto px-6 py-4 rounded-md relative">
-          <div
-            onClick={() => setShow(false)}
-            className="absolute right-4 top-4 text-xl cursor-pointer text-white"
-          >
-            <RxCross2 />
+    <div className="bg-[#18191b] min-h-screen w-full loginBg">
+      <div className="w-full h-full justify-center items-center">
+        <div className="py-[70px] flex justify-center items-center flex-col gap-6">
+          <div className="w-[140px] h-[52px]">
+            <img className="w-full h-full" src={logo} alt="" />
           </div>
-          <h2 className="text-white pb-4 text-center text-xl">
-            Login and Sign up in seconds
+          <h2 className="text-5xl text-[#c7c5c5] font-bold">
+            Editor Drag and Drop
           </h2>
+          <span className="text-[#aca9a9] text-2xl font-medium">
+            Created in React and Node
+          </span>
+        </div>
 
-          {type === "signin" && (
+        <div className="w-[350px] bg-[#323335] m-auto px-6 py-4 rounded-md relative opacity-75">
+          {type === "login" && (
             <form onSubmit={user_login}>
               <div className="flex flex-col gap-3 mb-3 text-white">
                 <label htmlFor="email">Email</label>
@@ -115,40 +110,21 @@ const Index = () => {
               <div>
                 <button
                   disabled={loader}
-                  className="px-3 py-2 rounded-md bg-purple-500 w-full outline-none hover:bg-purple-600 text-white"
+                  className="px-3 py-2 rounded-md bg-[#34569f]   hover:bg-[#163984] w-full outline-none text-white"
                 >
-                  {loader ? "loading.." : "Sign In"}
+                  {loader ? "loading.." : "Login"}
                 </button>
               </div>
-
-              <div className="flex py-4 justify-between items-center px-3">
-                <div className="w-[45%] h-[1px] bg-slate-500 "></div>
-                <div className="w-[6%] text-center flex pb-1 px-1 text-white">
-                  Or
-                </div>
-                <div className="w-[45%] h-[1px] bg-slate-500 "></div>
-              </div>
-
-              <div className="pb-4">
-                <button className="px-3 flex justify-center items-center gap-2 py-2 rounded-md bg-red-500 w-full outline-none hover:bg-red-600 text-white">
-                  <span>
-                    <BiLogoGmail />
-                  </span>
-                  <span>Login with Gmail </span>
-                </button>
-              </div>
-
-              <div className="pb-4">
-                <button className="px-3 flex justify-center items-center gap-2 py-2 rounded-md bg-blue-500 w-full outline-none hover:bg-blue-600 text-white">
-                  <span>
-                    <FaFacebook />
-                  </span>
-                  <span>Login with Facebook </span>
-                </button>
+              <div className="px-3 py-2 w-full text-white border-2 mt-10 border-dashed border-[#595959] rounded-md">
+                Demo data:
+                <br />
+                Email: mario@rossi.it
+                <br />
+                Password: 12345678
               </div>
             </form>
           )}
-          {type === "signup" && (
+          {type === "register" && (
             <form onSubmit={user_register}>
               <div className="flex flex-col gap-3 mb-3 text-white">
                 <label htmlFor="name">Name</label>
@@ -193,7 +169,7 @@ const Index = () => {
                   disabled={loader}
                   className="px-3 py-2 rounded-md bg-purple-500 w-full outline-none hover:bg-purple-600 text-white"
                 >
-                  {loader ? "loading.." : "Sign Up"}
+                  {loader ? "loading.." : "Register"}
                 </button>
               </div>
 
@@ -204,82 +180,8 @@ const Index = () => {
                 </div>
                 <div className="w-[45%] h-[1px] bg-slate-500 "></div>
               </div>
-
-              <div className="pb-4">
-                <button className="px-3 flex justify-center items-center gap-2 py-2 rounded-md bg-red-500 w-full outline-none hover:bg-red-600 text-white">
-                  <span>
-                    <BiLogoGmail />
-                  </span>
-                  <span>Login with Gmail </span>
-                </button>
-              </div>
-
-              <div className="pb-4">
-                <button className="px-3 flex justify-center items-center gap-2 py-2 rounded-md bg-blue-500 w-full outline-none hover:bg-blue-600 text-white">
-                  <span>
-                    <FaFacebook />
-                  </span>
-                  <span>Login with Facebook </span>
-                </button>
-              </div>
             </form>
           )}
-        </div>
-      </div>
-
-      <div className="bg-[#212223] shadow-md">
-        <div className="w-[93%] m-auto py-3">
-          <div className="flex justify-between items-center">
-            <div className="w-[140px] h-[52px]">
-              <img className="w-full h-full" src={logo} alt="" />
-            </div>
-
-            <div className="flex gap-4">
-              <button
-                onClick={() => {
-                  setType("signin");
-                  setShow(true);
-                }}
-                className="py-2 w-[80px] text-center bg-teal-700 text-white transition-all hover:bg-teal-500 rounded-[5px] font-medium"
-              >
-                SingIn
-              </button>
-
-              <button
-                onClick={() => {
-                  setType("signup");
-                  setShow(true);
-                }}
-                className="py-2 w-[80px] text-center bg-purple-700 text-white transition-all hover:bg-purple-500 rounded-[5px] font-medium"
-              >
-                SingUp
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="w-full h-full justify-center items-center p-4">
-        <div className="py-[170px] flex justify-center items-center flex-col gap-6">
-          <h2 className="text-5xl text-[#c7c5c5] font-bold">
-            Editor Drag and Drop
-          </h2>
-          <span className="text-[#aca9a9] text-2xl font-medium">
-            Created in React and Node
-          </span>
-          <span className="text-[#ddd] text-1xl font-small">
-            Create design with editor and share
-          </span>
-          <br />
-          <button
-            onClick={() => {
-              setType("signup");
-              setShow(true);
-            }}
-            className="py-2 w-[200px] text-center bg-purple-700 text-white transition-all hover:bg-purple-500 rounded-[5px] font-medium"
-          >
-            SingUp for Free
-          </button>
         </div>
       </div>
     </div>

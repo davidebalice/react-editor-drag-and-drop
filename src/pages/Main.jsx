@@ -10,7 +10,7 @@ import { FaTextHeight } from "react-icons/fa6";
 import { LuLayoutTemplate } from "react-icons/lu";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import { RxTransparencyGrid } from "react-icons/rx";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Background from "../components/Background";
 import CreateComponent from "../components/Components";
 import Header from "../components/Header";
@@ -386,7 +386,6 @@ const Main = () => {
     const get_design = async () => {
       try {
         const { data } = await api.get(`/api/user-design/${design_id}`);
-        console.log(data);
         const { design } = data;
 
         for (let i = 0; i < design.length; i++) {
@@ -409,6 +408,22 @@ const Main = () => {
       <Header components={components} design_id={design_id} />
       <div className="flex h-[calc(100%-60px)] w-screen">
         <div className="w-[80px] bg-[#18191B] z-50 h-full text-gray-400 overflow-y-auto">
+          <Link
+            to="/"
+            className={`text-[#e0dddd] px-2 py-2 flex justify-start items-center gap-2 rounded-md `}
+          >
+            <div
+              className={` ${
+                show.name === "projects" ? "bg-[#252627]" : ""
+              } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}
+            >
+              <span className="text-2xl">
+                <FaFolderOpen />
+              </span>
+              <span className="text-xs font-medium">Projects</span>
+            </div>
+          </Link>
+
           <div
             onClick={() => setElements("design", "design")}
             className={` ${
@@ -455,18 +470,6 @@ const Main = () => {
               <FaTextHeight />
             </span>
             <span className="text-xs font-medium">Text</span>
-          </div>
-
-          <div
-            onClick={() => setElements("project", "projects")}
-            className={` ${
-              show.name === "projects" ? "bg-[#252627]" : ""
-            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}
-          >
-            <span className="text-2xl">
-              <FaFolderOpen />
-            </span>
-            <span className="text-xs font-medium">Project</span>
           </div>
 
           <div

@@ -11,7 +11,9 @@ const Item = ({ design, delete_design, type }) => {
   return (
     <div
       className={`relative group w-full ${
-        type ? "h-[140px]" : "h-[240px] px-2"
+        type
+          ? "h-[140px]"
+          : "h-[240px] sm:h-[260px] md:h-[280px] lg:h-[300px] xl:h-[320px] px-2 mb-5"
       } `}
     >
       <Link
@@ -21,7 +23,7 @@ const Item = ({ design, delete_design, type }) => {
         } `}
       >
         <img
-          className="w-full h-full rounded-md overflow-hidden"
+          className="w-full h-full rounded-md object-cover object-center overflow-hidden"
           src={`${url}`}
           alt=""
         />
