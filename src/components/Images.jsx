@@ -4,12 +4,12 @@ import BarLoader from "react-spinners/BarLoader";
 import api from "../utils/api";
 import Image from "./Image";
 
-const Images = ({ add_image }) => {
+const Images = ({ addImage }) => {
   const [images, setImages] = useState([]);
   const [loader, setLoader] = useState(false);
 
   useEffect(() => {
-    const get_images = async () => {
+    const getImages = async () => {
       try {
         const { data } = await api.get("/api/design-images");
         setImages(data.images);
@@ -17,7 +17,7 @@ const Images = ({ add_image }) => {
         console.log(error);
       }
     };
-    get_images();
+    getImages();
   }, []);
 
   return (
@@ -29,7 +29,7 @@ const Images = ({ add_image }) => {
       )}
 
       <div className="h-[80vh] overflow-x-auto flex justify-start items-start scrollbar-hide">
-        <Image add_image={add_image} images={images} type="images" />
+        <Image addImage={addImage} images={images} type="images" />
       </div>
     </div>
   );

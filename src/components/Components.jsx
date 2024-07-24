@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import config from "../config";
 import { ComponentsContext } from "../context/ComponentsContext";
 import Controls from "./Controls";
@@ -74,7 +74,9 @@ const Components = ({ info }) => {
           id={componentId}
           info={info}
           exId=""
-          showControls={currentComponent ? currentComponent.id === info.id : false}
+          showControls={
+            currentComponent ? currentComponent.id === info.id : false
+          }
         />
       </div>
     );
@@ -127,6 +129,8 @@ const Components = ({ info }) => {
         style={{
           left: info.left + "px",
           top: info.top + "px",
+          width: info.width + "px",
+          height: info.height + "px",
           zIndex: info.z_index,
           transform: info.rotate ? `rotate(${info.rotate}deg)` : "rotate(0deg)",
         }}
@@ -146,7 +150,9 @@ const Components = ({ info }) => {
           id={componentId}
           info={info}
           exId={`${componentId}t`}
-          showControls={currentComponent ? currentComponent.id === info.id : false}
+          showControls={
+            currentComponent ? currentComponent.id === info.id : false
+          }
         />
       </div>
     );
@@ -184,7 +190,9 @@ const Components = ({ info }) => {
         <Controls
           id={info.id}
           info={info}
-          showControls={currentComponent ? currentComponent.id === info.id : false}
+          showControls={
+            currentComponent ? currentComponent.id === info.id : false
+          }
         />
       </div>
     );
@@ -220,6 +228,12 @@ const Components = ({ info }) => {
               src={`${config.uploadImageUrl}${info.image}?t=${token}`}
               alt="image"
             />
+          ) : info.type == "png" ? (
+            <img
+              className="w-full h-full"
+              src={`${config.pngUrl}${info.image}?t=${token}`}
+              alt="image"
+            />
           ) : (
             <img
               className="w-full h-full"
@@ -232,7 +246,9 @@ const Components = ({ info }) => {
           id={componentId}
           info={info}
           exId={`${componentId}img`}
-          showControls={currentComponent ? currentComponent.id === info.id : false}
+          showControls={
+            currentComponent ? currentComponent.id === info.id : false
+          }
         />
       </div>
     );

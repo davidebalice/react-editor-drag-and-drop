@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import config from "../config";
 import { useComponentsContext } from "../context/ComponentsContext";
 
-const Image = ({ add_image, images, type, setImage }) => {
+const Image = ({ addImage, images, type, setImage }) => {
   const token = localStorage.getItem("token");
 
   const [directory, setDirectory] = useState("");
@@ -23,6 +23,9 @@ const Image = ({ add_image, images, type, setImage }) => {
   useEffect(() => {
     if (type === "background") {
       setDirectory(config.backgroundUrl);
+    } else if (type === "png") {
+      setDirectory(config.pngUrl);
+      setTypeImage("png");
     } else if (type === "uploadImage") {
       setDirectory(config.uploadImageUrl);
       setTypeImage("upload");
@@ -41,7 +44,7 @@ const Image = ({ add_image, images, type, setImage }) => {
           onClick={() =>
             type === "background"
               ? setBackground(item.image_url)
-              : add_image(item.image_url, typeImage)
+              : addImage(item.image_url, typeImage)
           }
           className="w-full h-[90px] overflow-hidden rounded-md cursor-pointer"
         >

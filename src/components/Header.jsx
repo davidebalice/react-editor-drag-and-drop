@@ -9,7 +9,7 @@ const Header = ({ components, design_id }) => {
   const [loader, setLoader] = useState(false);
 
   const saveImage = async () => {
-    const getDiv = document.getElementById("main_design");
+    const getDiv = document.getElementById("mainDesign");
     const image = await htmlToImage.toBlob(getDiv);
 
     if (image) {
@@ -27,7 +27,11 @@ const Header = ({ components, design_id }) => {
           `/api/update-user-design/${design_id}`,
           formData
         );
-        toast.success(data.message);
+        if (data.message.includes("Demo")) {
+          toast.error(data.message);
+        } else {
+          toast.success(data.message);
+        }
         setLoader(false);
       } catch (error) {
         setLoader(false);
@@ -37,7 +41,7 @@ const Header = ({ components, design_id }) => {
   };
 
   const downloadImage = async () => {
-    const getDiv = document.getElementById("main_design");
+    const getDiv = document.getElementById("mainDesign");
     const dataUrl = await htmlToImage.toPng(getDiv, {
       style: {
         transform: "scale(1)",
@@ -58,9 +62,9 @@ const Header = ({ components, design_id }) => {
         <div className="w-[110px] h-[40px]">
           <Link to="/">
             <img className="w-full h-full" src={logo} alt="" />
-          </Link>{" "}
+          </Link>
         </div>
-        <span className="text-xl">Editor Drag and Drop</span>
+        <span className="text-xl">React Editor Drag and Drop</span>
 
         <div className="flex justify-center items-center gap-2 text-gray-200">
           <button
@@ -68,7 +72,6 @@ const Header = ({ components, design_id }) => {
             onClick={saveImage}
             className="px-3 py-[6px] outline-none bg-[#7482f6] rounded-md"
           >
-            {" "}
             {loader ? "Loading.." : "Save"}
           </button>
 
@@ -76,8 +79,7 @@ const Header = ({ components, design_id }) => {
             onClick={downloadImage}
             className="px-3 py-[6px] outline-none bg-[#a855f7] rounded-md"
           >
-            {" "}
-            Download{" "}
+            Download
           </button>
         </div>
       </div>

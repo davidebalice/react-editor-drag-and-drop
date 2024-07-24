@@ -1,24 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import logo from "../assets/images/logoWhite.png";
 import api from "../utils/api";
+import userImg from "../assets/images/user.png";
 
 const Layout = () => {
   const [show, setShow] = useState(false);
   const [user, setUser] = useState(null);
-
-  const { pathname } = useLocation();
   const navigate = useNavigate();
-
-  const create = () => {
-    navigate("/design/create", {
-      state: {
-        type: "create",
-        width: 600,
-        height: 450,
-      },
-    });
-  };
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -52,10 +41,10 @@ const Layout = () => {
             </div>
 
             <div className="flex gap-4 justify-center items-center relative">
-              <div onClick={() => setShow(!show)} className=" cursor-pointer">
+              <div onClick={() => setShow(!show)} className="cursor-pointer">
                 <img
                   className="w-[48px] h-[45px] rounded-full"
-                  src="https://templates-flatlogic.herokuapp.com/sing-app/html5/demo/img/people/a5.jpg"
+                  src={userImg}
                   alt=""
                 />
               </div>
@@ -68,7 +57,7 @@ const Layout = () => {
                 <div className="px-2 py-2 flex justify-start gap-5 items-center">
                   <img
                     className="w-[40px] h-[40px] rounded-full"
-                    src="https://templates-flatlogic.herokuapp.com/sing-app/html5/demo/img/people/a5.jpg"
+                    src={userImg}
                     alt=""
                   />
                   <div className="flex justify-center flex-col items-start">

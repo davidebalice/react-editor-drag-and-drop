@@ -19,7 +19,7 @@ const Projects = ({ type, design_id }) => {
     get_user_design();
   }, []);
 
-  const delete_design = async (design_id) => {
+  const deleteDesign = async (design_id) => {
     try {
       const { data } = await api.put(`/api/delete-user-image/${design_id}`);
       toast.success(data.message);
@@ -48,7 +48,7 @@ const Projects = ({ type, design_id }) => {
                   key={i}
                   design={d}
                   type={type}
-                  delete_design={delete_design}
+                  deleteDesign={deleteDesign}
                 /></>
               
               )

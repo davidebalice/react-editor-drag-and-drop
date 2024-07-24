@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import "react-multi-carousel/lib/styles.css";
 import { useNavigate } from "react-router-dom";
+import config from "../config";
+import { useComponentsContext } from "../context/ComponentsContext";
 import api from "../utils/api";
 import Item from "./Home/Item";
 
 const Home = () => {
+  const { setCurrentComponent } = useComponentsContext();
   const [designs, setDesign] = useState([]);
   const navigate = useNavigate();
   const [state, setState] = useState({
@@ -21,13 +24,17 @@ const Home = () => {
   };
 
   const create = () => {
-    navigate("/design/create", {
-      state: {
-        type: "create",
-        width: state.width,
-        height: state.height,
-      },
-    });
+    if (config.demoMode) {
+      toast.error("Demo mode. Create new design is not allowed.");
+    } else {
+      navigate("/design/create", {
+        state: {
+          type: "create",
+          width: state.width,
+          height: state.height,
+        },
+      });
+    }
   };
 
   const get_user_design = async () => {
@@ -40,16 +47,23 @@ const Home = () => {
   };
 
   useEffect(() => {
+    setCurrentComponent("");
     get_user_design();
   }, []);
 
-  const delete_design = async (design_id) => {
-    try {
-      const { data } = await api.put(`/api/delete-user-image/${design_id}`);
-      toast.success(data.message);
-      get_user_design();
-    } catch (error) {
-      toast.error(error.response.data.message);
+  const deleteDesign = async (design_id) => {
+    if (confirm("Confirm delete of this design?")) {
+      try {
+        const { data } = await api.put(`/api/delete-user-image/${design_id}`);
+        if (data.message.includes("Demo")) {
+          toast.error(data.message);
+        } else {
+          toast.success(data.message);
+          get_user_design();
+        }
+      } catch (error) {
+        toast.error(error.response.data.message);
+      }
     }
   };
 
@@ -57,8 +71,11 @@ const Home = () => {
     <div className="pt-1 pl-3">
       <div className="w-full flex justify-start items-center relative rounded-md overflow-hidden">
         <form
-          onSubmit={create}
-          className={` top-16 left-1 gap-3 bg-[#252627] w-[580px] p-4 text-white`}
+          onSubmit={(e) => {
+            e.preventDefault();
+            create();
+          }}
+          className={` top-16 left-1 gap-3 bg-[#252627] w-[580px] p-4 text-white flex`}
         >
           <div className="flex gap-5 justify-center items-start flex-row items-center">
             <button className="px-4 py-2 text-[15px] overflow-hidden text-center bg-[#32769ead] text-white rounded-[3px] font-medium hover:bg-[#1e830f] w-full">
@@ -85,6 +102,11 @@ const Home = () => {
             />
           </div>
         </form>
+        <div className="demoHome">
+          <b>Demo Mode</b>
+          <br />
+          Crud operations are not allowed.
+        </div>
       </div>
 
       <div>
@@ -100,7 +122,7 @@ const Home = () => {
                 (d, i) =>
                   d._id !== "design_id" && (
                     <>
-                      <Item key={i} design={d} delete_design={delete_design} />
+                      <Item key={i} design={d} deleteDesign={deleteDesign} />
                     </>
                   )
               )

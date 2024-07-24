@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { BsImages } from "react-icons/bs";
 import {
   FaCloudUploadAlt,
@@ -15,9 +16,10 @@ import Background from "../components/Background";
 import CreateComponent from "../components/Components";
 import Header from "../components/Header";
 import Images from "../components/Images";
-import TemplateDesign from "../components/main/TemplateDesign";
+import PngImage from "../components/PngImage";
 import Projects from "../components/Projects";
 import UploadedImages from "../components/UploadImages";
+import config from "../config";
 import { ComponentsContext } from "../context/ComponentsContext";
 import api from "../utils/api";
 
@@ -27,7 +29,6 @@ const Main = () => {
   const { design_id } = useParams();
 
   const [state, setState] = useState("");
-  // const [currentComponent, setCurrentComponent] = useState("");
   const [color, setColor] = useState("");
   const [image, setImage] = useState("");
   const [rotate, setRotate] = useState(0);
@@ -76,48 +77,49 @@ const Main = () => {
   useEffect(() => {
     if (currentComponent) {
       const index = components.findIndex((c) => c.id === currentComponent.id);
+      if (index) {
+        const temp = components.filter((c) => c.id !== currentComponent.id);
 
-      const temp = components.filter((c) => c.id !== currentComponent.id);
+        components[index].width = width || currentComponent.width;
+        components[index].height = height || currentComponent.height;
+        components[index].rotate = rotate || currentComponent.rotate;
 
-      components[index].width = width || currentComponent.width;
-      components[index].height = height || currentComponent.height;
-      components[index].rotate = rotate || currentComponent.rotate;
+        if (currentComponent.name === "text") {
+          components[index].font = font || currentComponent.font;
+          components[index].padding = padding || currentComponent.padding;
+          components[index].weight = weight || currentComponent.weight;
+          components[index].title = text || currentComponent.title;
+        }
 
-      if (currentComponent.name === "text") {
-        components[index].font = font || currentComponent.font;
-        components[index].padding = padding || currentComponent.padding;
-        components[index].weight = weight || currentComponent.weight;
-        components[index].title = text || currentComponent.title;
+        if (currentComponent.name === "image") {
+          components[index].radius = radius || currentComponent.radius;
+        }
+
+        if (currentComponent.name === "background" && image) {
+          components[index].image = image || currentComponent.image;
+        }
+
+        if (currentComponent.name !== "background") {
+          components[index].left = left || currentComponent.left;
+          components[index].top = top || currentComponent.top;
+          components[index].opacity = opacity || currentComponent.opacity;
+          components[index].z_index = zIndex || currentComponent.z_index;
+        }
+
+        components[index].color = color || currentComponent.color;
+
+        setComponents([...temp, components[index]]);
+
+        setColor("");
+        setLeft("");
+        setTop("");
+        setWidth("");
+        setHeight("");
+        setRotate(0);
+        setOpacity("");
+        setzIndex("");
+        setText("");
       }
-
-      if (currentComponent.name === "image") {
-        components[index].radius = radius || currentComponent.radius;
-      }
-
-      if (currentComponent.name === "background" && image) {
-        components[index].image = image || currentComponent.image;
-      }
-
-      if (currentComponent.name !== "background") {
-        components[index].left = left || currentComponent.left;
-        components[index].top = top || currentComponent.top;
-        components[index].opacity = opacity || currentComponent.opacity;
-        components[index].z_index = zIndex || currentComponent.z_index;
-      }
-
-      components[index].color = color || currentComponent.color;
-
-      setComponents([...temp, components[index]]);
-
-      setColor("");
-      setLeft("");
-      setTop("");
-      setWidth("");
-      setHeight("");
-      setRotate(0);
-      setOpacity("");
-      setzIndex("");
-      setText("");
     }
   }, [
     color,
@@ -286,9 +288,13 @@ const Main = () => {
 
   const removeComponent = (id) => {
     if (confirm("Delete this component?")) {
-      const temp = components.filter((c) => c.id !== id);
-      setCurrentComponent("");
-      setComponents(temp);
+      if (config.demoMode) {
+        toast.error("Demo mode. Delete is not allowed");
+      } else {
+        const temp = components.filter((c) => c.id !== id);
+        setCurrentComponent("");
+        setComponents(temp);
+      }
     }
   };
 
@@ -329,7 +335,7 @@ const Main = () => {
     setComponents([...components, style]);
   };
 
-  const add_text = (name, type) => {
+  const addText = (name, type) => {
     const style = {
       id: Date.now(),
       name: name,
@@ -340,10 +346,10 @@ const Main = () => {
       rotate,
       z_index: 10,
       padding: 6,
-      font: 22,
-      width: 200,
-      height: 100,
-      title: "Add Your Text",
+      font: 20,
+      width: 300,
+      height: 70,
+      title: "Lorem ipsum dolor sit amet",
       weight: 400,
       color: "#3c3c3d",
       setCurrentComponent: (a) => setCurrentComponent(a),
@@ -357,7 +363,7 @@ const Main = () => {
     setComponents([...components, style]);
   };
 
-  const add_image = (img, type) => {
+  const addImage = (img, type) => {
     setCurrentComponent("");
     const style = {
       id: Date.now(),
@@ -383,7 +389,7 @@ const Main = () => {
   };
 
   useEffect(() => {
-    const get_design = async () => {
+    const getDesign = async () => {
       try {
         const { data } = await api.get(`/api/user-design/${design_id}`);
         const { design } = data;
@@ -400,7 +406,7 @@ const Main = () => {
         console.log(error);
       }
     };
-    get_design();
+    getDesign();
   }, [design_id]);
 
   return (
@@ -425,18 +431,6 @@ const Main = () => {
           </Link>
 
           <div
-            onClick={() => setElements("design", "design")}
-            className={` ${
-              show.name === "design" ? "bg-[#252627]" : ""
-            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}
-          >
-            <span className="text-2xl">
-              <LuLayoutTemplate />
-            </span>
-            <span className="text-xs font-medium">Design</span>
-          </div>
-
-          <div
             onClick={() => setElements("shape", "shape")}
             className={`${
               show.name === "shape" ? "bg-[#252627]" : ""
@@ -446,6 +440,18 @@ const Main = () => {
               <FaShapes />
             </span>
             <span className="text-xs font-medium">Shapes</span>
+          </div>
+
+          <div
+            onClick={() => setElements("png", "png")}
+            className={` ${
+              show.name === "png" ? "bg-[#252627]" : ""
+            } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}
+          >
+            <span className="text-2xl">
+              <LuLayoutTemplate />
+            </span>
+            <span className="text-xs font-medium">Png</span>
           </div>
 
           <div
@@ -509,37 +515,35 @@ const Main = () => {
             >
               <MdKeyboardArrowLeft />
             </div>
-            {state === "design" && (
-              <div>
-                <TemplateDesign type="main" />
-              </div>
-            )}
+
             {state === "shape" && (
-              <div className="grid grid-cols-3 gap-2">
+              <div className="grid grid-cols-2 gap-3">
                 <div
                   onClick={() => createShape("shape", "rect")}
-                  className="h-[90px] bg-[#3c3c3d] cursor-pointer"
+                  className="w-[90px] h-[90px] bg-[#999] cursor-pointer hover:bg-[#888] mt-5"
                 ></div>
                 <div
                   onClick={() => createShape("shape", "circle")}
-                  className="h-[90px] bg-[#3c3c3d] cursor-pointer rounded-full"
+                  className="w-[90px] h-[90px] bg-[#999] cursor-pointer rounded-full hover:bg-[#888] mt-5"
                 ></div>
                 <div
                   onClick={() => createShape("shape", "triangle")}
                   style={{ clipPath: "polygon(50% 0, 100% 100%, 0 100%)" }}
-                  className="h-[90px] bg-[#3c3c3d] cursor-pointer  "
+                  className="w-[90px] h-[90px] bg-[#999] cursor-pointer hover:bg-[#888] mt-5"
                 ></div>
               </div>
             )}
-            {state === "image" && <UploadedImages add_image={add_image} />}
+            {state === "image" && <UploadedImages addImage={addImage} />}
             {state === "text" && (
               <div>
                 <div className="grid grid-cols-1 gap-2">
                   <div
-                    onClick={() => add_text("text", "title")}
-                    className="bg-[#3c3c3d] cursor-pointer font-bold p-3 text-white text-xl rounded-sm"
+                    onClick={() => addText("text", "title")}
+                    className="bg-[#3c3c3d] cursor-pointer font-bold p-3 text-white text-xl rounded-sm hover:bg-[#888]"
                   >
-                    <h2>Add A Text </h2>
+                    <h2>
+                      <>+</> Add A Text
+                    </h2>
                   </div>
                 </div>
               </div>
@@ -549,7 +553,12 @@ const Main = () => {
             )}
             {state === "initImage" && (
               <div className="h-[88vh] overflow-x-auto flex justify-start items-start scrollbar-hide">
-                <Images add_image={add_image} />
+                <Images addImage={addImage} />
+              </div>
+            )}
+            {state === "png" && (
+              <div className="h-[88vh] overflow-x-auto flex justify-start items-start scrollbar-hide">
+                <PngImage type="png" addImage={addImage} />
               </div>
             )}
             {state === "background" && (
@@ -566,15 +575,12 @@ const Main = () => {
               }`}
             >
               <div className="helpMessage">
-                Click on a content to access controls
+                Click on a content to access controls.
               </div>
 
-              <div
-                className="m-w-[800px] m-h-[600px] flex justify-center items-center overflow-hidden"
-                style={{ border: "2px solid red" }}
-              >
+              <div className="m-w-[800px] m-h-[600px] flex justify-center items-center overflow-hidden">
                 <div
-                  id="main_design"
+                  id="mainDesign"
                   className="w-auto relative h-auto overflow-hidden"
                 >
                   {components.map((c, i) => (
