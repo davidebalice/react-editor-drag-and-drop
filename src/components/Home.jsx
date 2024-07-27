@@ -1,5 +1,8 @@
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+
 import "react-multi-carousel/lib/styles.css";
 import { useNavigate } from "react-router-dom";
 import config from "../config";
@@ -78,9 +81,11 @@ const Home = () => {
           className={` top-16 left-1 gap-3 bg-[#252627] w-[580px] p-4 text-white flex`}
         >
           <div className="flex gap-5 justify-center items-start flex-row items-center">
-            <button className="px-4 py-2 text-[15px] overflow-hidden text-center bg-[#32769ead] text-white rounded-[3px] font-medium hover:bg-[#1e830f] w-full">
-              + Create Design
+            <button className="flex items-center px-4 py-2 text-[15px] overflow-hidden text-center bg-[#32769ead] text-white rounded-[3px] font-medium hover:bg-[#1e830f] w-full">
+              <FontAwesomeIcon icon={faPlus} className="text-[21px] mr-2" />
+              Create Design
             </button>
+
             <label htmlFor="width">Width</label>
             <input
               onChange={inputHandle}
@@ -110,7 +115,10 @@ const Home = () => {
       </div>
 
       <div>
-        <h2 className="text-xl py-6 font-semibold text-white">Your designs</h2>
+        <h2 className="text-xl py-0 mt-5 font-semibold text-white">Your designs</h2>
+        <h4 className="text-l py-0 mb-5 font-semibold text-white">
+          Click on design to modify
+        </h4>
         <div className="overflow-x-auto flex justify-start items-start w-full">
           <div
             className={

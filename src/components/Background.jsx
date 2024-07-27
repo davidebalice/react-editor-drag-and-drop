@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import api from "../utils/api";
 import Image from "./Image";
@@ -22,6 +23,11 @@ const Background = ({ setImage, type }) => {
       <Image setImage={setImage} type={type} images={images} />
     </>
   );
+};
+
+Background.propTypes = {
+  setImage: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
 };
 
 export default Background;

@@ -5,7 +5,7 @@ const config = {
   backgroundUrl: "http://localhost:8000/api/backgrounds/",
   pngUrl: "http://localhost:8000/api/png/",
   imagesUrl: "http://localhost:8000/api/images/",
-  demoMode: true,
+  demoMode: false,
 };
 
 export default config;

@@ -77,9 +77,8 @@ const Main = () => {
   useEffect(() => {
     if (currentComponent) {
       const index = components.findIndex((c) => c.id === currentComponent.id);
-      if (index) {
+      if (index >= 0) {
         const temp = components.filter((c) => c.id !== currentComponent.id);
-
         components[index].width = width || currentComponent.width;
         components[index].height = height || currentComponent.height;
         components[index].rotate = rotate || currentComponent.rotate;
@@ -296,6 +295,10 @@ const Main = () => {
         setComponents(temp);
       }
     }
+  };
+
+  const deselectAll = () => {
+    setCurrentComponent("");
   };
 
   const removeBackground = () => {
@@ -577,7 +580,9 @@ const Main = () => {
               <div className="helpMessage">
                 Click on a content to access controls.
               </div>
-
+              <div className="helpMessage" onClick={() => deselectAll()}>
+                Deselect all
+              </div>
               <div className="m-w-[800px] m-h-[600px] flex justify-center items-center overflow-hidden">
                 <div
                   id="mainDesign"
@@ -601,7 +606,16 @@ const Main = () => {
                     <div className="flex gap-1 justify-start items-start">
                       <span className="text-md w-[70px]">Width</span>
                       <input
-                        onChange={(e) => setWidth(parseInt(e.target.value))}
+                        onChange={(e) => {
+                          setWidth(parseInt(e.target.value));
+                          /*
+                        
+                         setCurrentComponent({
+                            ...currentComponent,
+                            width: e.target.value,
+                          })
+                        */
+                        }}
                         className="w-[70px] border border-gray-700 bg-transparent outline-none px-2 rounded-md"
                         type="number"
                         step={1}

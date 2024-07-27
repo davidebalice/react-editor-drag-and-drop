@@ -29,10 +29,12 @@ const Components = ({ info }) => {
     setCurrentComponent(info);
   };
 
-  if (info.name === "background") {
+  if (info.name === "background" && info.type === "rect") {
     html = (
       <div
+        id={componentId}
         onClick={() => info.setCurrentComponent(info)}
+        onMouseDown={() => handleHover(info)}
         className="shadow-md"
         style={{
           width: info.width + "px",

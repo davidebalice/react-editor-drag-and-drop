@@ -1,3 +1,5 @@
+import { faSave,faDownload } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as htmlToImage from "html-to-image";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
@@ -66,19 +68,22 @@ const Header = ({ components, design_id }) => {
         </div>
         <span className="text-xl">React Editor Drag and Drop</span>
 
-        <div className="flex justify-center items-center gap-2 text-gray-200">
+        <div className="flex justify-center items-center gap-2 text-gray-200 w-[300px]">
           <button
             disabled={loader}
             onClick={saveImage}
-            className="px-3 py-[6px] outline-none bg-[#7482f6] rounded-md"
+            className="flex items-center px-4 py-2 text-[15px] overflow-hidden text-center bg-[#32769ead] text-white rounded-[3px] font-medium hover:bg-[#1e830f] w-full"
           >
-            {loader ? "Loading.." : "Save"}
+            <FontAwesomeIcon icon={faSave} className="text-[20px] mr-2" />
+
+            {loader ? "Loading.." : "Save design"}
           </button>
 
           <button
             onClick={downloadImage}
-            className="px-3 py-[6px] outline-none bg-[#a855f7] rounded-md"
+            className="flex items-center px-4 py-2 text-[15px] overflow-hidden text-center bg-[#32769ead] text-white rounded-[3px] font-medium hover:bg-[#1e830f] w-full"
           >
+            <FontAwesomeIcon icon={faDownload} className="text-[20px] mr-2" />
             Download
           </button>
         </div>
