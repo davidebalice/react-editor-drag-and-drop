@@ -15,8 +15,8 @@ const Home = () => {
   const [designs, setDesign] = useState([]);
   const navigate = useNavigate();
   const [state, setState] = useState({
-    width: 640,
-    height: 480,
+    width: 800,
+    height: 600,
   });
 
   const inputHandle = (e) => {
@@ -115,7 +115,9 @@ const Home = () => {
       </div>
 
       <div>
-        <h2 className="text-xl py-0 mt-5 font-semibold text-white">Your designs</h2>
+        <h2 className="text-xl py-0 mt-5 font-semibold text-white">
+          Your designs
+        </h2>
         <h4 className="text-l py-0 mb-5 font-semibold text-white">
           Click on design to modify
         </h4>

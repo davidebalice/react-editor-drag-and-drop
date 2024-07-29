@@ -17,6 +17,14 @@ const Components = ({ info }) => {
         currentDiv.style.width = parseInt(currentInfo.width) + "px";
         currentDiv.style.height = parseInt(currentInfo.height) + "px";
       }
+      /*
+      if (document.getElementById("text" + currentInfo.id)) {
+        const textDiv = document.getElementById("text" + currentInfo.id);
+        if (textDiv.style.fontSize) {
+          textDiv.style.fontSize = parseInt(currentInfo.font) + "px";
+        }
+      }
+      */
     }
   };
 
@@ -180,6 +188,7 @@ const Components = ({ info }) => {
         className="absolute group content"
       >
         <div
+          id={`text${info.id}`}
           style={{
             fontSize: info.font + "px",
             fontWeight: info.weight,
@@ -207,6 +216,8 @@ const Components = ({ info }) => {
         onClick={() => handleClick(info)}
         onMouseDown={() => handleHover(info)}
         style={{
+          width: info.width + "px",
+          height: info.height + "px",
           left: info.left + "px",
           top: info.top + "px",
           zIndex: info.z_index,

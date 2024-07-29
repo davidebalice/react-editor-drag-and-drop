@@ -49,7 +49,7 @@ const Image = ({ addImage, images, type, setImage }) => {
           className="w-full h-[90px] overflow-hidden rounded-md cursor-pointer"
         >
           <img
-            className="w-full h-full"
+            className="w-full h-full  object-cover"
             src={`${directory}${item.image_url}?t=${token}`}
             alt=""
           />

@@ -112,6 +112,9 @@ const Main = () => {
         setColor("");
         setLeft("");
         setTop("");
+        setPadding("");
+        setFont("");
+        setWeight("");
         setWidth("");
         setHeight("");
         setRotate(0);
@@ -238,7 +241,6 @@ const Main = () => {
       setWidth(parseInt(currentDiv.style.width));
       setHeight(parseInt(currentDiv.style.height));
     };
-
     window.addEventListener("mousemove", mouseMove);
     window.addEventListener("mouseup", mouseUp);
   };
@@ -586,7 +588,7 @@ const Main = () => {
                   Click on a content to access controls
                 </div>
                 <div className="deselectButton" onClick={() => deselectAll()}>
-                  <MdDeselect style={{fontSize:"22px"}}/>
+                  <MdDeselect style={{ fontSize: "22px" }} />
                   Deselect all
                 </div>
               </div>
