@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 const Controls = ({ id, info, exId, showControls }) => {
   const elementId = parseInt(exId || id);
@@ -35,7 +36,7 @@ const Controls = ({ id, info, exId, showControls }) => {
             }
             className="absolute -top-2 -left-2 w-4 h-4 cursor-nwse-resize bg-green-600 z-50"
           ></div>
-           <div
+          <div
             onMouseDown={() => info.rotateElement(elementId, info)}
             className="absolute -top-8 left-1/2 transform -translate-x-1/2 cursor-grab z-50"
           >
@@ -95,6 +96,17 @@ const Controls = ({ id, info, exId, showControls }) => {
       )}
     </>
   );
+};
+
+Controls.propTypes = {
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  info: PropTypes.shape({
+    moveElement: PropTypes.func.isRequired,
+    resizeElement: PropTypes.func.isRequired,
+    rotateElement: PropTypes.func.isRequired,
+  }).isRequired,
+  exId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  showControls: PropTypes.bool.isRequired,
 };
 
 export default Controls;

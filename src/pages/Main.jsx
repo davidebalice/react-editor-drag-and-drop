@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa";
 import { FaTextHeight } from "react-icons/fa6";
 import { LuLayoutTemplate } from "react-icons/lu";
-import { MdKeyboardArrowLeft } from "react-icons/md";
+import { MdDeselect, MdKeyboardArrowLeft } from "react-icons/md";
 import { RxTransparencyGrid } from "react-icons/rx";
 import { Link, useParams } from "react-router-dom";
 import Background from "../components/Background";
@@ -414,7 +414,11 @@ const Main = () => {
 
   return (
     <div className="min-w-screen h-screen bg-black">
-      <Header components={components} design_id={design_id} />
+      <Header
+        components={components}
+        design_id={design_id}
+        setCurrentComponent={setCurrentComponent}
+      />
       <div className="flex h-[calc(100%-60px)] w-screen">
         <div className="w-[80px] bg-[#18191B] z-50 h-full text-gray-400 overflow-y-auto">
           <Link
@@ -577,12 +581,16 @@ const Main = () => {
                 !currentComponent ? "w-full" : "w-[100%] overflow-hidden "
               }`}
             >
-              <div className="helpMessage">
-                Click on a content to access controls.
+              <div className="helpMessageContainer w-[800px]">
+                <div className="helpMessage">
+                  Click on a content to access controls
+                </div>
+                <div className="deselectButton" onClick={() => deselectAll()}>
+                  <MdDeselect style={{fontSize:"22px"}}/>
+                  Deselect all
+                </div>
               </div>
-              <div className="helpMessage" onClick={() => deselectAll()}>
-                Deselect all
-              </div>
+
               <div className="m-w-[800px] m-h-[600px] flex justify-center items-center overflow-hidden">
                 <div
                   id="mainDesign"

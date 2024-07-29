@@ -1,4 +1,4 @@
-import { faSave,faDownload } from "@fortawesome/free-solid-svg-icons";
+import { faDownload, faSave } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as htmlToImage from "html-to-image";
 import React, { useState } from "react";
@@ -7,10 +7,11 @@ import { Link } from "react-router-dom";
 import logo from "../assets/images/logoWhite.png";
 import api from "../utils/api";
 
-const Header = ({ components, design_id }) => {
+const Header = ({ components, design_id, setCurrentComponent }) => {
   const [loader, setLoader] = useState(false);
 
   const saveImage = async () => {
+    setCurrentComponent(null);
     const getDiv = document.getElementById("mainDesign");
     const image = await htmlToImage.toBlob(getDiv);
 

@@ -19,9 +19,14 @@ body {
   background: rgba(0, 0, 0, 0.3);
 }
 
+.helpMessageContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
 .helpMessage {
   color: white;
-  margin-bottom: 8px;
+  padding-top: 8px;
 }
 
 .flexColumn {
@@ -51,4 +56,20 @@ body {
 
 .demoHome b {
   color: red;
+}
+
+.deselectButton {
+  display: flex;
+  gap: 4px;
+  background: #305e7a;
+  margin-bottom:10px;
+  color: #fff;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.deselectButton:hover {
+  background: #357095;
 }
