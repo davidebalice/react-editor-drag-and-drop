@@ -17,14 +17,7 @@ const Components = ({ info }) => {
         currentDiv.style.width = parseInt(currentInfo.width) + "px";
         currentDiv.style.height = parseInt(currentInfo.height) + "px";
       }
-      /*
-      if (document.getElementById("text" + currentInfo.id)) {
-        const textDiv = document.getElementById("text" + currentInfo.id);
-        if (textDiv.style.fontSize) {
-          textDiv.style.fontSize = parseInt(currentInfo.font) + "px";
-        }
-      }
-      */
+      
     }
   };
 

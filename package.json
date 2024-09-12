@@ -14,6 +14,7 @@
     "@fortawesome/react-fontawesome": "^0.2.2",
     "axios": "^1.6.8",
     "dotenv": "^16.4.5",
+    "editor-drag-and-drop": "file:",
     "html-to-image": "^1.11.11",
     "jwt-decode": "^4.0.0",
     "prop-types": "^15.8.1",

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import logo from "../assets/images/logoWhite.png";
-import api from "../utils/api";
 import userImg from "../assets/images/user.png";
+import Footer from "../components/Footer";
+import api from "../utils/api";
 
 const Layout = () => {
   const [show, setShow] = useState(false);
@@ -83,12 +84,13 @@ const Layout = () => {
         </div>
       </div>
 
-      <div className="w-full flex mt-16">
+      <div className="w-full  mt-16">
         <div className="w-full p-5">
           <div className="py-4 pr-4">
             <Outlet />
           </div>
         </div>
+        <Footer />
       </div>
     </div>
   );
