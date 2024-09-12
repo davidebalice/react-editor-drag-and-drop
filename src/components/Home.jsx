@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import config from "../config";
 import { useComponentsContext } from "../context/ComponentsContext";
 import api from "../utils/api";
-import Item from "./Home/Item";
+import Item from "./Item";
 
 const Home = () => {
   const { setCurrentComponent } = useComponentsContext();
@@ -72,7 +72,7 @@ const Home = () => {
 
   return (
     <div className="pt-1 pl-3">
-      <div className="w-full flex justify-start items-center relative rounded-md overflow-hidden">
+      <div className="w-full flex justify-start items-center relative rounded-md overflow-hidden itemContainer">
         <form
           onSubmit={(e) => {
             e.preventDefault();
@@ -115,16 +115,22 @@ const Home = () => {
       </div>
 
       <div>
-        <h2 className="text-xl py-0 mt-5 font-semibold text-white">
+        <h2 className="text-xl py-0 mt-5 font-semibold text-white itemContainer">
           Your designs
         </h2>
-        <h4 className="text-l py-0 mb-5 font-semibold text-white">
+        <h4 className="text-l py-0 mb-5 font-semibold text-white itemContainer">
           Click on design to modify
         </h4>
         <div className="overflow-x-auto flex justify-start items-start w-full">
+          
+          
+          <div className="mobileMessage">Editor not work on mobile device.<br />Run on Pc Desktop. </div>
+          
+          
+          
           <div
             className={
-              "w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4"
+              "w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 itemContainer"
             }
           >
             {designs && designs.length > 0 ? (
@@ -140,6 +146,10 @@ const Home = () => {
               <p>No designs found.</p>
             )}
           </div>
+
+
+
+
         </div>
       </div>
     </div>

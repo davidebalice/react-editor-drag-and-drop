@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import api from "../utils/api";
-import Item from "./Home/Item";
+import Item from "./Item";
 
 const Projects = ({ type, design_id }) => {
   const [designs, setDesign] = useState([]);
@@ -36,21 +36,20 @@ const Projects = ({ type, design_id }) => {
           type
             ? "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
             : "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-        
         }
       >
         {designs && designs.length > 0 ? (
           designs.map(
             (d, i) =>
               d._id !== design_id && (
-                
-                <><Item
-                  key={i}
-                  design={d}
-                  type={type}
-                  deleteDesign={deleteDesign}
-                /></>
-              
+                <>
+                  <Item
+                    key={i}
+                    design={d}
+                    type={type}
+                    deleteDesign={deleteDesign}
+                  />
+                </>
               )
           )
         ) : (

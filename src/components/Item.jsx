@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import config from "../../config";
+import config from "../config";
 
 const Item = ({ design, deleteDesign, type }) => {
   const [imageUrl, setImageUrl] = useState("");
@@ -23,7 +23,7 @@ const Item = ({ design, deleteDesign, type }) => {
         } `}
       >
         <img
-          className="w-full h-full rounded-md object-cover object-center overflow-hidden"
+          className="w-full h-full rounded-md object-cover object-center overflow-hidden group-hover:opacity-85"
           src={`${url}`}
           alt=""
         />
