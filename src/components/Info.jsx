@@ -14,6 +14,14 @@ const Info = () => {
         Move item and resize by mouse drag, use control to manage color and
         size.
         <br /> <br />
+        <b style={{ color: "red" }}>Demo mode:</b>
+        <br />
+        <br />
+        This project is in DEMO MODE, crud operations are not allowed, is not
+        possilble to create new design, save modify of existent design or upload
+        new photo.
+        <br />
+        <br />
         <b>Tecnology:</b>
         <br />
         <br />
@@ -29,7 +37,7 @@ const Info = () => {
         <a
           href="https://github.com/davidebalice/react-editor-drag-and-drop"
           target="_blank"
-          style={{color:"#18adc3"}}
+          style={{ color: "#18adc3" }}
         >
           github.com/davidebalice/react-editor-drag-and-drop
         </a>
@@ -40,20 +48,12 @@ const Info = () => {
         <a
           href="https://github.com/davidebalice/editor-drag-and-drop-api"
           target="_blank"
-          style={{color:"#18adc3"}}
+          style={{ color: "#18adc3" }}
         >
           github.com/davidebalice/editor-drag-and-drop-api
         </a>
         <br />
         <br />
-
-     
-
-
-
-
-        <br /><br />
-
       </div>
     </div>
   );

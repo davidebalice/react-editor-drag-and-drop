@@ -5,40 +5,45 @@ import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
 import logo from "../assets/images/logoWhite.png";
+import config from "../config";
 import api from "../utils/api";
 
 const Header = ({ components, design_id, setCurrentComponent }) => {
   const [loader, setLoader] = useState(false);
 
-  const saveImage = async () => {
-    setCurrentComponent(null);
-    const getDiv = document.getElementById("mainDesign");
-    const image = await htmlToImage.toBlob(getDiv);
+  const saveDesign = async () => {
+    if (config.demoMode) {
+      toast.error("Demo mode. Save design is not allowed.");
+    } else {
+      setCurrentComponent(null);
+      const getDiv = document.getElementById("mainDesign");
+      const image = await htmlToImage.toBlob(getDiv);
 
-    if (image) {
-      const obj = {
-        design: components,
-      };
-      console.log(obj);
+      if (image) {
+        const obj = {
+          design: components,
+        };
+        console.log(obj);
 
-      const formData = new FormData();
-      formData.append("design", JSON.stringify(obj));
-      formData.append("image", image);
-      try {
-        setLoader(true);
-        const { data } = await api.put(
-          `/api/update-user-design/${design_id}`,
-          formData
-        );
-        if (data.message.includes("Demo")) {
-          toast.error(data.message);
-        } else {
-          toast.success(data.message);
+        const formData = new FormData();
+        formData.append("design", JSON.stringify(obj));
+        formData.append("image", image);
+        try {
+          setLoader(true);
+          const { data } = await api.put(
+            `/api/update-user-design/${design_id}`,
+            formData
+          );
+          if (data.message.includes("Demo")) {
+            toast.error(data.message);
+          } else {
+            toast.success(data.message);
+          }
+          setLoader(false);
+        } catch (error) {
+          setLoader(false);
+          toast.error(error.response.data.message);
         }
-        setLoader(false);
-      } catch (error) {
-        setLoader(false);
-        toast.error(error.response.data.message);
       }
     }
   };
@@ -72,7 +77,7 @@ const Header = ({ components, design_id, setCurrentComponent }) => {
         <div className="flex justify-center items-center gap-2 text-gray-200 w-[300px]">
           <button
             disabled={loader}
-            onClick={saveImage}
+            onClick={saveDesign}
             className="flex items-center px-4 py-2 text-[15px] overflow-hidden text-center bg-[#32769ead] text-white rounded-[3px] font-medium hover:bg-[#1e830f] w-full"
           >
             <FontAwesomeIcon icon={faSave} className="text-[20px] mr-2" />

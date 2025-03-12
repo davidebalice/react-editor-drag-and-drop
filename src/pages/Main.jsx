@@ -414,6 +414,14 @@ const Main = () => {
     getDesign();
   }, [design_id]);
 
+  const upload = () => {
+    if (config.demoMode) {
+      toast.error("Demo mode. Upload photo is not allowed.");
+    } else {
+      setElements("image", "uploadImage");
+    }
+  };
+
   return (
     <div className="min-w-screen h-screen bg-black">
       <Header
@@ -464,7 +472,7 @@ const Main = () => {
           </div>
 
           <div
-            onClick={() => setElements("image", "uploadImage")}
+            onClick={() => upload()}
             className={`${
               show.name === "uploadImage" ? "bg-[#252627]" : ""
             } w-full h-[80px] cursor-pointer flex justify-center flex-col items-center gap-1 hover:text-gray-100`}
